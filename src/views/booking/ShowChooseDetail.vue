@@ -30,6 +30,7 @@
             orderDetail: detail, 
         }
         useMemberBuyTicketOrderAPI().newOrder(order)
+        bookingStore.setOrderId = useMemberBuyTicketOrderAPI().order.value.id
     }
     
 </script>

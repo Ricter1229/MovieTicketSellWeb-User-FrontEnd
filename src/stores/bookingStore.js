@@ -26,6 +26,8 @@ const useBookingStore = defineStore("bookingStore", () => {
     auditoriumScheduleId.value = 1
     const setAuditoriumScheduleId = val => auditoriumScheduleId.value = val
     
+    const orderId = ref(0)
+    const setOrderId = val => orderId.value = val
 
     return {
         memberId,
@@ -33,6 +35,7 @@ const useBookingStore = defineStore("bookingStore", () => {
         movieId, setmovieId,
         storeId, setStoreId,
         timeslot, setTimeslot,
+        orderId,setOrderId,
         selectedSeats,
         selectedTickets,
         auditoriumScheduleId, setAuditoriumScheduleId

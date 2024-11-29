@@ -1,4 +1,4 @@
-import { createOrder } from "@/api/booking/memberBuyTicketOrderAPI.js";
+import { createOrder, updateOrderStatus } from "@/api/booking/memberBuyTicketOrderAPI.js";
 import { reactive, ref } from "vue";
 
 export function useMemberBuyTicketOrderAPI() {
@@ -7,10 +7,16 @@ export function useMemberBuyTicketOrderAPI() {
 
     const newOrder = async (requestMemberBuyTicketOrder) => {
         try {
-            console.log("requestMemberBuyTicketOrder",requestMemberBuyTicketOrder)
-            order.data = (await createOrder(requestMemberBuyTicketOrder)).data 
-            console.log(order.data);
-                    
+            order.data = (await createOrder(requestMemberBuyTicketOrder)).data                     
+        } catch (error) {
+            console.error("Error fetching order data:", error);
+            throw error; // 抛出错误以便组件处理
+        }
+    }
+
+    const changeOrderStatus = async (request) => {
+        try {
+            order.data = (await updateOrderStatus(request)).data                     
         } catch (error) {
             console.error("Error fetching order data:", error);
             throw error; // 抛出错误以便组件处理
@@ -20,5 +26,6 @@ export function useMemberBuyTicketOrderAPI() {
     return {
         order,
         newOrder,
+        changeOrderStatus,
     }
 }

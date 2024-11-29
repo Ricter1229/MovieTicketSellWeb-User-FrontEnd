@@ -23,9 +23,18 @@ axiosInstance.interceptors.request.use(
 
 // response 攔截器
 axiosInstance.interceptors.response.use(
-  (response) => response.data, // 直接返回 data
+   (response) => {
+    const { data } = response; // 解包 response.data
+    // 检查 code 是否为成功状态（根据业务逻辑）
+    if (data.code !== 200) {
+      // console.error('API Error:', data.errroDetail);
+      return Promise.reject(new Error(data.message || 'Unknown Error'));
+    }
+    // 正常返回 data.data（即最终需要的核心数据）
+    return data
+  },
   (error) => {
-    console.error('API Error:', error.response || error.message);
+    console.log('API Error:', error.response?.data.errorDetail);
     return Promise.reject(error);
   }
 );
