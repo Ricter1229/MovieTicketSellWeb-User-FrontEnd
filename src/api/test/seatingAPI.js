@@ -1,7 +1,7 @@
 import axios from '@/utils/axiosInstance';
 import { ref } from 'vue';
 
-const API_BASE_URL = '/api/Auditorium';
+const API_BASE_URL = '/Auditorium';
 
 export const getSeat = async () => {
     const request =
