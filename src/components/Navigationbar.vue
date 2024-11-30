@@ -26,7 +26,18 @@
                     <li v-else class="nav-item">
                         <button @click="logout" class="nav-link btn btn-link">登出</button>
                     </li>
-
+                    
+                    <li class="nav-item dropdown" >
+                        <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
+                                role="button" aria-expanded="false">
+                            電影管理
+                        </span>
+                        <ul class="dropdown-menu">
+                            <li><RouterLink class="dropdown-item" to="/movie">電影</RouterLink></li>
+                            <li><RouterLink class="dropdown-item" to="/moviefront">電影前端暫放用</RouterLink></li>
+                            <!-- <li><RouterLink class="dropdown-item" to="/onemovie">單一電影前端暫放用</RouterLink></li> -->
+                        </ul>
+                    </li>
 
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-ticket-alt me-2"></i>服務</a>

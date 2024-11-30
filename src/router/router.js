@@ -10,6 +10,10 @@ import Register from "@/views/secure/Register.vue";
 import Login from "@/views/secure/Login.vue";
 import ResetPassword from "@/views/secure/ResetPassword.vue";
 
+import Movie from "@/views/pages/Movie.vue";
+import MovieFront from "@/views/pages/MovieFront.vue";
+import OneMovie from "@/views/pages/OneMovie.vue";
+
 // temp
 import TempMoney from "@/views/TempMoney.vue"
 
@@ -22,6 +26,13 @@ const routes = [
     { path: "/secure/register", name: "register-link", component: Register },
     { path: "/secure/login", name: "login-link", component: Login },
     { path: '/secure/reset-password', name: 'reset-password', component: ResetPassword },
+
+// movie
+    { name:"home-link" , path:"/" , component: Home},
+    { name:"movie-link" , path:"/movie" , component: Movie},
+    { name:"moviefront-link" , path:"/moviefront" , component: MovieFront},
+    { name:"onemovie-link" , path:"/onemovie/:id" , component: OneMovie ,props: true},
+
 
 // booking
     { path: "/", name: "main-page-link", component: MainPage },

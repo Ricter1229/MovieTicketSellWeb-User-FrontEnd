@@ -2,8 +2,9 @@ import axios from "axios";
 const path = import.meta.env.VITE_API_URL
 
 const axiosInstance = axios.create({
-  baseURL: path + '/api', // 后端基礎路徑
+  baseURL: path, // 后端基礎路徑
   timeout: 5000, // request 超時時間
+  headers: { "Content-Type": "application/json" },
 })
 
 
@@ -34,6 +35,9 @@ axiosInstance.interceptors.response.use(
     return data
   },
   (error) => {
+    if(error.response && error.response.status && error.response.status==403) {
+      window.location.href = "/403";
+    }
     console.log('API Error:', error.response?.data.errorDetail);
     return Promise.reject(error);
   }

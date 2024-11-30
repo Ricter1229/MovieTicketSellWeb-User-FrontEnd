@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <template>
     <h3>首頁 {{ usersStore.email }}</h3>
 
@@ -12,3 +13,16 @@
 <style>
     
 </style>
+=======
+    <template>
+            <h3>歡迎</h3>
+    </template>
+        
+    <script setup>
+        
+    </script>
+        
+    <style>
+        
+    </style>
+>>>>>>> origin/detail
