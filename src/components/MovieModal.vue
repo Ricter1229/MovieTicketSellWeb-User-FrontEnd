@@ -76,7 +76,7 @@ function doinput(event, key) {
     };
     emits("update:movie", data);
 }
-import bootstrap from "bootstrap/dist/js/bootstrap.bundle.min.js"
+import bootstrap from 'bootstrap/dist/js/bootstrap.bundle.min.js'
 import { onMounted, ref } from 'vue';
 const refExampleModal = ref(null);
 const modal = ref(null);

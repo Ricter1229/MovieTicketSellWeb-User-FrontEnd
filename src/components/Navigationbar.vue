@@ -7,16 +7,7 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-home me-2"></i>首頁</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-info-circle me-2"></i>關於我們</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <RouterLink to="/" class="nav-link active" aria-current="page" >首頁</RouterLink>
-                    </li>
+    
                     <li v-if="!usersStore.isLogin" class="nav-item">
                         <RouterLink to="/secure/login" class="nav-link" aria-current="page" >登入</RouterLink>
                     </li>
@@ -39,12 +30,12 @@
                         </ul>
                     </li>
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-ticket-alt me-2"></i>服務</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-envelope me-2"></i>聯絡我們</a>
-                    </li>
+                    </li> -->
                 </ul>
             </div>
         </div>

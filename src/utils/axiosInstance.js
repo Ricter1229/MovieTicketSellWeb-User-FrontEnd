@@ -7,38 +7,25 @@ const axiosInstance = axios.create({
   headers: { "Content-Type": "application/json" },
 })
 
-
-// request 攔截器
-axiosInstance.interceptors.request.use(
-  (config) => {
-    // 可以在此處添加認證 Token，例如：
-    // const token = localStorage.getItem('authToken');
-    // if (token) {
-    //   config.headers.Authorization = `Bearer ${token}`;
-    // }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
-
-
 // response 攔截器
 axiosInstance.interceptors.response.use(
-   (response) => {
+  (response) => {
     const { data } = response; // 解包 response.data
     // 检查 code 是否为成功状态（根据业务逻辑）
-    if (data.code !== 200) {
-      // console.error('API Error:', data.errroDetail);
-      return Promise.reject(new Error(data.message || 'Unknown Error'));
-    }
+    // if (data.code !== 200) {
+    //   // console.error('API Error:', data.errroDetail);
+    //   return Promise.reject(new Error(data.message || 'Unknown Error'));
+    // }
+    // console.log(data.code);
+    
     // 正常返回 data.data（即最终需要的核心数据）
-    return data
+    return response
   },
   (error) => {
     if(error.response && error.response.status && error.response.status==403) {
+      console.log('API Error:', error.response?.data.errorDetail);
       window.location.href = "/403";
     }
-    console.log('API Error:', error.response?.data.errorDetail);
     return Promise.reject(error);
   }
 );

@@ -39,7 +39,7 @@
 
 <script setup>
 import { ref } from 'vue';
-import axiosapi from "@/plugins/axios.js";
+import axiosapi from '@/utils/axiosInstance.js';
 import Swal from 'sweetalert2';
 import { useRouter } from 'vue-router';
 

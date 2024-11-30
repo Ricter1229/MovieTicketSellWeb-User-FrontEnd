@@ -54,7 +54,7 @@
     import {ref , onMounted} from 'vue'
     import { useRoute } from 'vue-router';
     import Swal from 'sweetalert2';
-    import axiosapi from '@/plugins/axios';
+    import axiosapi from '@/utils/axiosInstance.js';
     import MovieCard from '@/components/MovieCard.vue';
     import MovieSelect from '@/components/MovieSelect.vue';
     import MovieModal from '@/components/MovieModal.vue';

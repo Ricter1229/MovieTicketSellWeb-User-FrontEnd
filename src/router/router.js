@@ -3,7 +3,6 @@ import MainPage from "@/views/main_page/MainPage.vue"
 import BookingIndex from "@/views/booking/BookingIndex.vue"
 
 
-import Home from "@/views/Home.vue";
 import NotFound from "@/views/NotFound.vue";
 import Forbidden from "@/views/Forbidden.vue";
 import Register from "@/views/secure/Register.vue";
@@ -28,7 +27,6 @@ const routes = [
     { path: '/secure/reset-password', name: 'reset-password', component: ResetPassword },
 
 // movie
-    { name:"home-link" , path:"/" , component: Home},
     { name:"movie-link" , path:"/movie" , component: Movie},
     { name:"moviefront-link" , path:"/moviefront" , component: MovieFront},
     { name:"onemovie-link" , path:"/onemovie/:id" , component: OneMovie ,props: true},

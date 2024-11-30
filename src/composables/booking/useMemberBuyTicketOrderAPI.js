@@ -7,7 +7,7 @@ export function useMemberBuyTicketOrderAPI() {
 
     const newOrder = async (requestMemberBuyTicketOrder) => {
         try {
-            order.data = (await createOrder(requestMemberBuyTicketOrder)).data                     
+            order.data = (await createOrder(requestMemberBuyTicketOrder)).data.data                     
         } catch (error) {
             console.error("Error fetching order data:", error);
             throw error; // 抛出错误以便组件处理
@@ -16,7 +16,7 @@ export function useMemberBuyTicketOrderAPI() {
 
     const changeOrderStatus = async (request) => {
         try {
-            order.data = (await updateOrderStatus(request)).data                     
+            order.data = (await updateOrderStatus(request)).data.data                     
         } catch (error) {
             console.error("Error fetching order data:", error);
             throw error; // 抛出错误以便组件处理

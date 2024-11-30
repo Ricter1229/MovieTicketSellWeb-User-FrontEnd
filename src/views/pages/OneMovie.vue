@@ -47,7 +47,7 @@
 </template>
 
 <script>
-import axiosapi from '@/plugins/axios';
+import axiosapi from '@/utils/axiosInstance.js';
 import Swal from 'sweetalert2';
 
 export default {

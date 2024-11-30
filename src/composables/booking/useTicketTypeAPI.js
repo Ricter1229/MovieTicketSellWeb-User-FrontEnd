@@ -6,7 +6,7 @@ export function useTicketTypeAPI() {
 
     const getAllTicketTypeRequest = async () => {
         try {
-            ticketTypes.data = (await getAllTicketType()).data            
+            ticketTypes.data = (await getAllTicketType()).data.data            
         } catch (error) {
             console.error("Error fetching ticket type data:", error);
             throw error; // 抛出错误以便组件处理

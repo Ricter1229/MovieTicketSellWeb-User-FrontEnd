@@ -44,7 +44,7 @@
 import Paginate from 'vuejs-paginate-next';
 import {ref , onMounted} from 'vue'
 import Swal from 'sweetalert2';
-import axiosapi from '@/plugins/axios';
+import axiosapi from '@/utils/axiosInstance.js';
 import MovieSelect from '@/components/MovieSelect.vue';
 import MovieCardFront from '@/components/MovieCardFront.vue';
 

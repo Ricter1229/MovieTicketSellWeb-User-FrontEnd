@@ -10,7 +10,7 @@
 import { ref } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import Swal from "sweetalert2";
-import axiosapi from "@/plugins/axios.js"
+import axiosapi from '@/utils/axiosInstance.js'
 
 const route = useRoute();
 const router = useRouter();
