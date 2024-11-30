@@ -30,6 +30,13 @@
                         </ul>
                     </li>
 
+<!-- temp test -->
+                    <li class="nav-item">
+                        <RouterLink to="/test" class="nav-link" aria-current="page" >測試store</RouterLink>
+                    </li>
+                    <li class="nav-item">
+                        <RouterLink to="/scheduke" class="nav-link" aria-current="page" >測試scheduke</RouterLink>
+                    </li>
                     <!-- <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-ticket-alt me-2"></i>服務</a>
                     </li>

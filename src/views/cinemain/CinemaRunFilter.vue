@@ -1,0 +1,29 @@
+<template>
+    <select name="" id="" class="sl">
+        <option value="">北部</option>
+        <option value="">中部</option>
+        <option value="">南部</option>
+    </select>
+    <select name="" id="" class="sl">
+        <option value="">oo店</option>
+        <option value="">oo店</option>
+        <option value="">oo店</option>
+    </select>
+</template>
+    
+<script setup>
+    
+</script>
+    
+<style scoped>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    .sl{
+        width:300px;
+        height: 24px;
+        margin-bottom: 10px;
+    }
+</style>

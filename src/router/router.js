@@ -1,24 +1,39 @@
 import { createRouter, createWebHistory } from "vue-router"
+
 import MainPage from "@/views/main_page/MainPage.vue"
-import BookingIndex from "@/views/booking/BookingIndex.vue"
-
-
 import NotFound from "@/views/NotFound.vue";
 import Forbidden from "@/views/Forbidden.vue";
+
+// user
 import Register from "@/views/secure/Register.vue";
 import Login from "@/views/secure/Login.vue";
 import ResetPassword from "@/views/secure/ResetPassword.vue";
 
+// movie
 import Movie from "@/views/pages/Movie.vue";
 import MovieFront from "@/views/pages/MovieFront.vue";
 import OneMovie from "@/views/pages/OneMovie.vue";
 
+// store
+import CinemaOuter from '../views/cinemaout/CinemaOuter.vue'
+import CinemaInner from '../views/cinemain/CinemaInner.vue'
+import CinemaBack from "../views/cinemaback/CinemaBack.vue";
+import CinemaModal from "../views/cinemaback/CinemaModal.vue";
+import CinemaMovieSchedule from "../views/cinemaback/CinemaMovieSchedule.vue";
+
+// booking
+import BookingIndex from "@/views/booking/BookingIndex.vue"
+
 // temp
 import TempMoney from "@/views/TempMoney.vue"
+import TheWelcome from '../components/TheWelcome.vue'
 
 const routes = [
+// temp
+    { path: "/money", name: "temp-money-link", component: TempMoney },
+    { path: "/test", name: "test-link", component: TheWelcome },
+
 // user
-    // { path: "/", name: "home-link", component: Home },
     { path: "/:pathMatch(.*)", name: "notfound-link", component: NotFound },
     { path: "/403", name: "forbidden-link", component: Forbidden },
 
@@ -31,6 +46,11 @@ const routes = [
     { name:"moviefront-link" , path:"/moviefront" , component: MovieFront},
     { name:"onemovie-link" , path:"/onemovie/:id" , component: OneMovie ,props: true},
 
+// store
+    {name:"cinema-outer-link",path:'/cinemas/all',component:CinemaOuter},
+    {name:"cinema-inner-link",path:'/cinemas/cinema',component:CinemaInner},
+    {name:"back-link",path:'/backend',component:CinemaBack},
+    {name:"scheduke-link",path:'/scheduke',component:CinemaMovieSchedule},
 
 // booking
     { path: "/", name: "main-page-link", component: MainPage },
@@ -60,9 +80,6 @@ const routes = [
             },
         ]
     },
-
-// temp 
-    { path: "/money", name: "temp-money-link", component: TempMoney },
 ]
 
 export default createRouter({
