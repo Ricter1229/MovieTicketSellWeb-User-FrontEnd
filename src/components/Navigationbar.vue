@@ -8,12 +8,26 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-
                         <a class="nav-link" href="#"><i class="fas fa-home me-2"></i>首頁</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-info-circle me-2"></i>關於我們</a>
                     </li>
+
+                    <li class="nav-item">
+                        <RouterLink to="/" class="nav-link active" aria-current="page" >首頁</RouterLink>
+                    </li>
+                    <li v-if="!usersStore.isLogin" class="nav-item">
+                        <RouterLink to="/secure/login" class="nav-link" aria-current="page" >登入</RouterLink>
+                    </li>
+                    <li v-if="!usersStore.isLogin" class="nav-item">
+                        <RouterLink to="/secure/register" class="nav-link" aria-current="page" >註冊</RouterLink>
+                    </li>
+                    <li v-else class="nav-item">
+                        <button @click="logout" class="nav-link btn btn-link">登出</button>
+                    </li>
+
+
                     <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-ticket-alt me-2"></i>服務</a>
                     </li>
@@ -27,6 +41,13 @@
 </template>
 
 <script setup>
+    import useUsersStore from '@/store/users.js';
+    const usersStore = useUsersStore();
+
+    const logout = () => {
+        usersStore.logout();
+        alert("您已成功登出。");
+    };
     import { onMounted, ref } from 'vue';
     const navbarRef = ref(null); 
     const emits = defineEmits(["updateHeight"])
