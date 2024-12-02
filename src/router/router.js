@@ -5,6 +5,7 @@ import NotFound from "@/views/NotFound.vue";
 import Forbidden from "@/views/Forbidden.vue";
 import Register from "@/views/secure/Register.vue";
 import Login from "@/views/secure/Login.vue";
+import User from "@/views/user/User.vue";
 import ResetPassword from "@/views/secure/ResetPassword.vue";
 
 const routes = [
@@ -14,6 +15,7 @@ const routes = [
 
     { path: "/secure/register", name: "register-link", component: Register },
     { path: "/secure/login", name: "login-link", component: Login },
+    { path: "/user", name: "user-link", component: User },
     { path: '/secure/reset-password', name: 'reset-password', component: ResetPassword },
 ];
 

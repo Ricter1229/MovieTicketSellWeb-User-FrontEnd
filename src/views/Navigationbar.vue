@@ -23,6 +23,9 @@
                         <button @click="logout" class="nav-link btn btn-link">登出</button>
                     </li>
 
+                    <li class="nav-item" v-show="usersStore.isLogin">
+                        <RouterLink to="/user" class="nav-link" aria-current="page" >用戶</RouterLink>
+                    </li>
                     <li class="nav-item dropdown" v-show="usersStore.isLogin">
                         <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
                                 role="button" aria-expanded="false">
