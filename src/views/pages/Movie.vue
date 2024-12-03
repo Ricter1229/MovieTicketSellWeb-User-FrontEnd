@@ -117,6 +117,8 @@
         }
         let uri = "/api/movie/find";
         axiosapi.post(uri , request).then(function(response){
+            console.log(response);
+            console.log(response.data.list[0].movie);
             movies.value = response.data.list;
 
             //分頁start
@@ -204,8 +206,8 @@
         });
         try {
             let request = movie.value;
-            const response = await axiosapi.post("/api/movie/addMovie", request);
             console.log(request);
+            const response = await axiosapi.post("/api/movie/addMovie", request);
             
             if(response.data.success) {
                 Swal.fire({
