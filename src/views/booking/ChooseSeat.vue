@@ -6,7 +6,7 @@
         <div class="theater-view">
             <!-- 螢幕(前方) -->
             <div class="screen text-center py-2 bg-light">
-                there is a screen
+                Screen
             </div>
             <!-- 座位 -->
             <div class="seating-list-container d-flex justify-content-center align-items-center mt-3">

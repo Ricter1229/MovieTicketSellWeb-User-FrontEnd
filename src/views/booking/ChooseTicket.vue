@@ -49,6 +49,7 @@
                                     class="form-select d-inline-block quantity-selector"
                                     @change="changeTicketQuality(index)"
                                     v-model="selectedQuantities[index]"
+                                    
                                 >
                                     <option
                                         v-for="ticketQuality in Array.from({ length: Math.floor(maxTicketQuantity / ticketTypes.data[index].movieTicketQuantity) + 1 }, (_, i) => i)"
@@ -96,23 +97,32 @@ const initializeQuantities = () => {
         // selectedTickets.push(ticket.name, ticket.quantity, ticket.subtotal)
         selectedQuantities[index] = 0; // 默認選擇數量為 0
         subtotals[index] = 0; // 默認小計為 0
+            
+        // 确保 bookingStore.selectedTickets.data 是有效数组
+        if (bookingStore.selectedTickets?.length > 0) {
+            const foundTicket = bookingStore.selectedTickets.find(t => t.name === ticket.name);
+            if (foundTicket) {
+                selectedQuantities[index] = foundTicket.quantity;
+                subtotals[index] = ticket.price * selectedQuantities[index];
+            }
+        }
+
         // eachMaxSelect[index] = Math.floor(maxTicketQuantity / ticketTypes.data[index].movieTicketQuantity)
     });
 };
 
-const changeTicketQuality = (index) => {
-    subtotals[index] = ticketTypes.data[index].price * selectedQuantities[index];
-    caculatorTotalMoney()
-    bookingStore.selectedTickets.data = []
-    for (let i = 0; i < ticketTypes.data.length; i++) {
-        if(subtotals[i] != 0) {
-            bookingStore.selectedTickets.push({
-                name: ticketTypes.data[i].name,
-                quantity: selectedQuantities[i],
-            })
-        }
-    }    console.log(bookingStore.selectedTickets);
-
+    const changeTicketQuality = (index) => {
+        subtotals[index] = ticketTypes.data[index].price * selectedQuantities[index];
+        caculatorTotalMoney()
+        bookingStore.selectedTickets = []
+        for (let i = 0; i < ticketTypes.data.length; i++) {
+            if(subtotals[i] != 0) {
+                bookingStore.selectedTickets.push({
+                    name: ticketTypes.data[i].name,
+                    quantity: selectedQuantities[i],
+                })
+            }
+        } 
     // changeEachMaxSelect(index)
 };
 

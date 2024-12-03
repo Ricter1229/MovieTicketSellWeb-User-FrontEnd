@@ -76,8 +76,8 @@
 
 /* 購物車部分樣式 */
 .shopping-cart {
-    flex-basis: 25%; /* 固定购物车宽度占比 */
-    max-width: 300px; /* 最大宽度限制 */
+    flex-basis: 40%; /* 固定购物车宽度占比 */
+    max-width: 600px; /* 最大宽度限制 */
     border: 1px solid #ddd; /* 添加边框 */
     background-color: #f8f9fa; /* 浅色背景 */
     border-radius: 5px; /* 圆角 */

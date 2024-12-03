@@ -16,7 +16,7 @@ const requestChangeOrderStatus = {
     "status": "CANCELED"
 }
 
-changeOrderStatus()
+
 
 </script>
 

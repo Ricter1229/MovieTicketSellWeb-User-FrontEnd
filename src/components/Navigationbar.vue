@@ -32,7 +32,7 @@
 
 <!-- temp test -->
                     <li class="nav-item">
-                        <RouterLink to="/test" class="nav-link" aria-current="page" >測試store</RouterLink>
+                        <RouterLink to="/cinemas/all" class="nav-link" aria-current="page" >測試store</RouterLink>
                     </li>
                     <li class="nav-item">
                         <RouterLink to="/scheduke" class="nav-link" aria-current="page" >測試scheduke</RouterLink>

@@ -97,7 +97,7 @@
 
     const showTimeslotsModal = index => {
         // store store id
-        bookingStore.setStoreId(index)
+        bookingStore.setStoreId(index + 1)
 
         showTimeslotsStoreIndex.value = index
         storeModal.value.hide()
