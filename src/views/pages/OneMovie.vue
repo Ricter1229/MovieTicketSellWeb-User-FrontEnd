@@ -6,7 +6,7 @@
     <div class="row movie-info">
       <!-- Movie Image and Title -->
       <div class="card" style="width: 18rem;">
-        <img v-if="movie.photo" :src="movie.photo" class="card-img-top" :alt="movie.chineseName" style="height: 400px; object-fit: cover;">
+        <img v-if="movie.photo" :src="thisPhoto" class="card-img-top" :alt="movie.chineseName" style="height: 400px; object-fit: cover;">
         <img v-else src="https://via.placeholder.com/150" class="card-img-top" alt="Placeholder Image" style="height: 400px; object-fit: cover;">
         <div class="card-body">
           <h5 class="card-title">{{ movie.chineseName }}</h5>
@@ -59,7 +59,8 @@ export default {
   },
   data() {
     return {
-      movie: {}  // 儲存電影資料
+      movie: {} , // 儲存電影資料
+      thisPhoto:""
     };
   },
   mounted() {
@@ -87,7 +88,8 @@ export default {
           }
 
           if (Array.isArray(response.data.list) && response.data.list.length > 0) {
-            this.movie = response.data.list[0];  // Set the movie data
+            this.movie = response.data.list[0].movie;  // Set the movie data
+            this.thisPhoto = response.data.list[0].mainPhoto;
           } else {
             throw new Error("未找到電影資料");
           }

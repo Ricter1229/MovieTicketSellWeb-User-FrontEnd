@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <span class="navbar-brand">後端管理</span>
+            <span class="navbar-brand">前端管理</span>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown"
                     aria-expanded="false" aria-label="Toggle navigation">
@@ -20,8 +20,8 @@
                             電影管理
                         </span>
                         <ul class="dropdown-menu">
-                            <li><RouterLink class="dropdown-item" to="/movie">電影</RouterLink></li>
-                            <!-- <li><RouterLink class="dropdown-item" to="/moviefront">電影前端暫放用</RouterLink></li> -->
+                            <!-- <li><RouterLink class="dropdown-item" to="/movie">電影</RouterLink></li> -->
+                            <li><RouterLink class="dropdown-item" to="/moviefront">電影前端暫放用</RouterLink></li>
                             <!-- <li><RouterLink class="dropdown-item" to="/onemovie">單一電影前端暫放用</RouterLink></li> -->
                         </ul>
                     </li>

@@ -7,7 +7,7 @@
                 </button>
             </div>
             <div class="col-6">
-                <input type="text" placeholder="電影名稱查詢" v-model="findName" @input="callFind(1)">
+                <input type="text" placeholder="電影名稱查詢" v-model="findName" @input="callFind">
             </div>
     
             <div class="col-3">
