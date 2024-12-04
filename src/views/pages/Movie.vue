@@ -76,11 +76,14 @@
     const movieModalRef = ref(null);
     const isShowInsertButton = ref(true);
     function openModal(action, id) {
+        console.log(id);
+        
         if(action==="insert") {
             isShowInsertButton.value = true;
             movie.value = {};
         } else {
             isShowInsertButton.value = false;
+            
             callFindById(id);
         }
         movieModalRef.value.showModal();
@@ -146,8 +149,8 @@
         });
         try {
             const response = await axiosapi.get(`/api/movie/movies/${id}`);
-            movie.value = response.data.list[0];
-
+            movie.value = response.data.list[0].movie;
+            
             setTimeout(function() {
                 Swal.close();
             }, 500);

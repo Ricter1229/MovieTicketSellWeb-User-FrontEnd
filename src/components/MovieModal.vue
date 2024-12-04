@@ -52,7 +52,7 @@
                         <tr>
                             <td>電影視覺圖 : </td>
                             <td><input type="file" accept="image/gif, image/jpeg, image/png" @change="handleFileChange" /></td>
-                            <td><img v-if="photo.mainPhoto" :src="photo.mainPhoto" alt="Image Preview" /></td>
+                            <td><img  :src="photo.mainPhoto" alt="Image Preview" /></td>
                             
                         </tr>
                     </tbody>
