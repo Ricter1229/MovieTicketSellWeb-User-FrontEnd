@@ -104,44 +104,16 @@ async function register() {
     };
 
     // 無須驗證碼，測試用
-    try {
-        const response = await axiosapi.post("/ajax/secure/register", request);
-
-        if (response.data.success) {
-
-            Swal.fire({
-                icon: "success",
-                title: "註冊成功！",
-            }.then(() => {
-                router.push({ name: "register-link" });
-            }));
-        } else {
-            Swal.fire({
-                icon: "warning",
-                title: response.data.message,
-            });
-        }
-    } catch (error) {
-        Swal.fire({
-            icon: "error",
-            title: "Registration failed: " + error.message,
-        });
-    }
-
-    // 實際上線用
     // try {
-    //     const response = await axiosapi.post("/ajax/secure/register-temp", request);
+    //     const response = await axiosapi.post("/ajax/secure/register", request);
 
     //     if (response.data.success) {
-    //         sessionStorage.setItem("userData", JSON.stringify(request));
-    //         sessionStorage.setItem("validationCode", response.data.validationCode);
-    //         const expirationTime = new Date().getTime() + 60 * 5 * 1000; // 5 minutes expiration
-    //         sessionStorage.setItem("codeExpiration", expirationTime);
-    //         isVerificationStep.value = true;
     //         Swal.fire({
     //             icon: "success",
-    //             title: "註冊成功！請檢查您的電子郵件以取得驗證碼。",
+    //             title: "註冊成功！",
     //         });
+
+    //         router.push({ name: "register-link" });
     //     } else {
     //         Swal.fire({
     //             icon: "warning",
@@ -154,6 +126,33 @@ async function register() {
     //         title: "Registration failed: " + error.message,
     //     });
     // }
+
+    // 實際上線用
+    try {
+        const response = await axiosapi.post("/ajax/secure/register-temp", request);
+
+        if (response.data.success) {
+            sessionStorage.setItem("userData", JSON.stringify(request));
+            sessionStorage.setItem("validationCode", response.data.validationCode);
+            const expirationTime = new Date().getTime() + 60 * 5 * 1000; // 5 minutes expiration
+            sessionStorage.setItem("codeExpiration", expirationTime);
+            isVerificationStep.value = true;
+            Swal.fire({
+                icon: "success",
+                title: "註冊成功！請檢查您的電子郵件以取得驗證碼。",
+            });
+        } else {
+            Swal.fire({
+                icon: "warning",
+                title: response.data.message,
+            });
+        }
+    } catch (error) {
+        Swal.fire({
+            icon: "error",
+            title: "Registration failed: " + error.message,
+        });
+    }
 }
 
 function registerCondition() {
@@ -187,6 +186,8 @@ function registerCondition() {
 
     if (!birthDate.value) {
         errors.value.birthDate = "生日不能為空";
+    } else if (new Date(birthDate.value) > new Date()) {
+        errors.value.birthDate = "生日不能大於當前日期";
     }
 }
 

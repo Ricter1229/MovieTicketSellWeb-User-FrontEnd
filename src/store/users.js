@@ -1,12 +1,17 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
-const useUsersStore = defineStore("userData", function() {
+const useUsersStore = defineStore("userData", function () {
+    const id = ref("");
+    function setId(val) {
+        id.value = val;
+    }
+
     const account = ref("");
     function setAccount(val) {
         account.value = val;
     }
-    
+
     const email = ref("");
     function setEmail(val) {
         email.value = val;
@@ -28,18 +33,21 @@ const useUsersStore = defineStore("userData", function() {
     }
 
     function logout() {
-        email.value = "";
-        isLogin.value = false;
-        sessionStorage.removeItem("userData");
+        setId(null);
+        setAccount("");
+        setEmail("");
+        setPhone("");
+        setBirthDate("");
+        setLogin(false);
     }
 
     return {
-        account, setAccount, email, setEmail, phone, setPhone, birthDate, setBirthDate, isLogin, setLogin, logout,
+        id, setId, account, setAccount, email, setEmail, phone, setPhone, birthDate, setBirthDate, isLogin, setLogin, logout,
     }
 }, {
     persist: {
         storage: sessionStorage,
-        paths: ["account", "email", "phone", "birthDate", "isLogin"]
+        paths: ["id", "account", "email", "phone", "birthDate", "isLogin"]
     }
 });
 

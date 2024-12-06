@@ -77,6 +77,7 @@ async function login() {
     };
 
     axiosapi.defaults.headers.authorization = "";
+    usersStore.setId("");
     usersStore.setAccount("");
     usersStore.setEmail("");
     usersStore.setPhone("");
@@ -84,9 +85,10 @@ async function login() {
     usersStore.setLogin(false);
     try {
         const response = await axiosapi.post("/ajax/secure/login", request);
-        const { account, phone, birthDate, email } = response.data;
+        const {id, account, phone, birthDate, email } = response.data;
 
         if (response.data.success) {
+            usersStore.setId(id);
             usersStore.setAccount(account);
             usersStore.setPhone(phone);
             usersStore.setBirthDate(birthDate);
