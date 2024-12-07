@@ -14,10 +14,17 @@
                     <li v-if="!usersStore.isLogin" class="nav-item">
                         <RouterLink to="/secure/register" class="nav-link" aria-current="page" >註冊</RouterLink>
                     </li>
-                    <li v-else class="nav-item">
+
+                    <li v-if="usersStore.account == 'sa'" class="nav-item" v-show="usersStore.isLogin">
+                        <RouterLink to="/admin" class="nav-link" aria-current="page" >管理</RouterLink>
+                    </li>
+                    <li class="nav-item" v-show="usersStore.isLogin">
+                        <RouterLink to="/user" class="nav-link" aria-current="page" >用戶</RouterLink>
+                    </li>
+                    <li v-if="usersStore.isLogin" class="nav-item">
                         <button @click="logout" class="nav-link btn btn-link">登出</button>
                     </li>
-                    
+
                     <li class="nav-item dropdown" >
                         <span class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
                                 role="button" aria-expanded="false">
@@ -64,6 +71,7 @@
     const logout = () => {
         usersStore.logout();
         alert("您已成功登出。");
+        router.push({ name: "home-link" });
     };
     import { onMounted, ref } from 'vue';
     const navbarRef = ref(null); 

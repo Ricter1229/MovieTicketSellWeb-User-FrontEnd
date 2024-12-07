@@ -7,7 +7,9 @@ import Forbidden from "@/views/Forbidden.vue";
 // user
 import Register from "@/views/secure/Register.vue";
 import Login from "@/views/secure/Login.vue";
+import User from "@/views/user/User.vue";
 import ResetPassword from "@/views/secure/ResetPassword.vue";
+import Admin from "@/views/admin/Admin.vue";
 
 // movie
 import Movie from "@/views/pages/Movie.vue";
@@ -35,6 +37,7 @@ const routes = [
 
     { path: "/secure/register", name: "register-link", component: Register },
     { path: "/secure/login", name: "login-link", component: Login },
+    { path: "/user", name: "user-link", component: User },
     { path: '/secure/reset-password', name: 'reset-password', component: ResetPassword },
 
 // movie
@@ -75,6 +78,7 @@ const routes = [
             },
         ]
     },
+    { path: "/admin", name: "admin-link", component: Admin },
 ]
 
 export default createRouter({
