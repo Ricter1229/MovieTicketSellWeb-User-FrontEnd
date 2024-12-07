@@ -52,9 +52,9 @@
 </template>
 
 <script>
-import axiosapi from "@/plugins/axios.js";
 import Paginate from 'vuejs-paginate-next';
 import UserSelect from "@/components/UserSelect.vue";
+import axiosInstance from "@/utils/axiosInstance";
 
 export default {
     components: {
@@ -94,7 +94,7 @@ export default {
                     order: "id",
                     account: this.findName
                 };
-                const response = await axiosapi.post('http://localhost:8080/admin/find', request);
+                const response = await axiosInstance.post('http://localhost:8080/admin/find', request);
                 
                 this.users = response.data.list;
                 this.total = response.data.count;
