@@ -87,7 +87,7 @@ export default {
           }
 
           if (Array.isArray(response.data.list) && response.data.list.length > 0) {
-            this.movie = response.data.list[0];  // Set the movie data
+            this.movie = response.data.list[0].movie;  // Set the movie data
           } else {
             throw new Error("未找到電影資料");
           }
