@@ -31,6 +31,9 @@ const routes = [
     { path: "/money", name: "temp-money-link", component: TempMoney },
     { path: "/test", name: "test-link", component: TheWelcome },
 
+// main page
+    { path: "/", name: "main-page-link", component: MainPage },
+
 // user
     { path: "/:pathMatch(.*)", name: "notfound-link", component: NotFound },
     { path: "/403", name: "forbidden-link", component: Forbidden },
@@ -51,7 +54,6 @@ const routes = [
 
 
 // booking
-    { path: "/", name: "main-page-link", component: MainPage },
     { path: "/movie", name: "movie-link", component: () => import('@/views/booking/choose_store_and_time/JustTempForBooking.vue') },
     { 
         path: "/booking", name: "booking-link", component: BookingIndex,

@@ -100,7 +100,7 @@ async function login() {
                 title: response.data.message,
             })
             
-            router.push({ name: "home-link" });
+            router.push({ name: "main-page-link" });
         } else {
             message.value = response.data.message;
             Swal.fire({
