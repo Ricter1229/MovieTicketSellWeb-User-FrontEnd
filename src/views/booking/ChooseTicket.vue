@@ -1,5 +1,4 @@
 <template>
-    <div>{{ totalMoney }}</div>
     <div>
         <h1>選擇票種</h1>
             

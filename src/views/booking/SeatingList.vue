@@ -16,9 +16,10 @@
                       walkway: seat === null,
                       selected: isSelected(row, seat),
                       isSold: isSoldSeats(row, seat),
+                      isLocked: isLockedSeats(row, seat), /* 锁定的座位 */
                     }"
                     
-                    @click="seat !== null && !isSoldSeats(row, seat) && clickedSeat(row, seat)"
+                    @click="seat !== null && !isSoldSeats(row, seat) && !isLockedSeats(row, seat) && clickedSeat(row, seat)"
                 > 
                     {{ seat || '' }}
                 </div>
@@ -60,6 +61,25 @@
         console.log('');
       }
     }
+
+    const lockedSeats = reactive([]);
+
+    const isLockedSeats = (row, seat) => {
+      return lockedSeats.includes(`${row.row}-${seat}`);
+    };
+
+    const lockedSeatInit = async () => {
+      const request = {
+        auditoriumScheduleId: bookingStore.auditoriumScheduleId
+      };
+      try {
+        const response = (await axiosInstance.post("/api/seats/isLocked", request)).data;
+        lockedSeats.splice(0, lockedSeats.length, ...response.data); // 替换为返回的已锁定座位
+      } catch (err) {
+        console.error("Error loading locked seats:", err);
+      }
+    };
+
     const clickedSeat = (row, seat) => {
         const seatKey = `${row.row}-${seat}`
         if (bookingStore.selectedSeats.includes(seatKey)) {
@@ -82,6 +102,7 @@
     onMounted(() => {
         seatingListRequest();
         soldSeatInit()
+        lockedSeatInit()
     });
 </script>
 
@@ -139,6 +160,11 @@
 .seat.isSold {
   background-color: #ff6961; /* 已售出座位的颜色 */
   cursor: not-allowed; /* 鼠标指针显示不可点击 */
+}
+
+.seat.isLocked {
+  background-color: #ffa500; /* 锁定座位的颜色（橙色） */
+  cursor: not-allowed; /* 鼠标指针显示为不可点击 */
 }
 
 .mx-1 {

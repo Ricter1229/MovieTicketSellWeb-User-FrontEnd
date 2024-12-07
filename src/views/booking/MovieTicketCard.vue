@@ -10,7 +10,7 @@
         </div>
         <!-- 文字區 -->
         <div class="card-details ms-3">
-            <div class="movie-title fw-bold">{{ movieName }}</div>
+            <div class="movie-title fw-bold">{{ bookingStore.movieName }}</div>
             <div class="movie-location text-muted">台北大安店</div>
             <div class="movie-date text-muted">{{ bookingStore.timeslot }}</div>
         </div>
@@ -23,13 +23,10 @@ import axiosInstance from '@/utils/axiosInstance';
 import useBookingStore from '@/stores/bookingStore';
 const bookingStore = useBookingStore()
 
-const movieName = ref(null)
-
 const init = async () => {
     try {
         const response = await axiosInstance.get("api/movie/movies/" + bookingStore.movieId)
-        movieName.value = response.data.list[0].chineseName
-        
+        bookingStore.setMovieName = response.data.list[0].chineseName
     } catch(err) {
         console.log(err);
     }

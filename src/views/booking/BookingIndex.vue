@@ -66,7 +66,7 @@
 /* RouterView 的樣式 */
 .router-view {
     flex-grow: 1; /* 动态占据剩余空间 */
-    overflow-y: auto; /* 如果内容超出，允许滚动 */
+    overflow: auto;
 }
 
 /* 下一頁按鈕樣式 */

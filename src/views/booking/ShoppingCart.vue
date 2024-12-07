@@ -26,6 +26,15 @@
                 </div>
             </div>
         </div>
+        <!-- 總金額部分 -->
+        <div class="seat-section" v-if="bookingStore.totalAmount != 0">
+            <h2 class="fw-bold mb-3">總金額</h2>
+            <div class="ticket-name d-flex flex-wrap">
+                <div class="">
+                    {{ bookingStore.totalAmount }}
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 

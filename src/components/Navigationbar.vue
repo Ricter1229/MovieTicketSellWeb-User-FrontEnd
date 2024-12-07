@@ -1,7 +1,7 @@
 <template>
     <nav ref="navbarRef" class="navbar navbar-expand-lg">
         <div class="container">
-            <RouterLink to="/" class="navbar-brand">CinemaVerse</RouterLink>
+            <RouterLink to="/" class="navbar-brand" @click="()=>bookingStore.resetStore()">CinemaVerse</RouterLink>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -37,6 +37,9 @@
                     <li class="nav-item">
                         <RouterLink to="/scheduke" class="nav-link" aria-current="page" >測試scheduke</RouterLink>
                     </li>
+                    <li class="nav-item">
+                        <RouterLink to="/test-userticket" class="nav-link" aria-current="page" >測試user ticket</RouterLink>
+                    </li>
                     <!-- <li class="nav-item">
                         <a class="nav-link" href="#"><i class="fas fa-ticket-alt me-2"></i>服務</a>
                     </li>
@@ -50,6 +53,8 @@
 </template>
 
 <script setup>
+    import useBookingStore from '@/stores/bookingStore';
+    const bookingStore = useBookingStore()
     import useUsersStore from '@/store/users.js';
     const usersStore = useUsersStore();
 

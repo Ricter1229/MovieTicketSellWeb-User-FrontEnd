@@ -1,7 +1,7 @@
 <template>
 
     <!-- 左側主內容 -->
-    <div class="main-content flex-grow-1 me-3">
+    <div class="main-contents flex-grow-1 me-3">
         <!-- 影廳畫面 -->
         <div class="theater-view">
             <!-- 螢幕(前方) -->
@@ -31,14 +31,15 @@
 
 <style scoped>
 /* 主內容 */
-.main-content {
+.main-contents {
     display: flex;
     flex-direction: column; /* 垂直布局 */
     min-height: 100vh; /* 覆盖全屏高度 */
     padding: 20px; /* 内边距 */
     background-color: #f8f9fa; /* 背景色 */
     border-right: 1px solid #ddd; /* 分隔左侧内容与其他部分 */
-    overflow: hidden; /* 防止内容溢出产生滚动 */
+    overflow: scroll; /* 防止内容溢出产生滚动 */
+    max-height:none;
 }
 
 /* 影廳畫面 */
@@ -67,13 +68,13 @@
     display: flex;
     justify-content: center;
     align-items: center; /* 垂直居中 */
-    width: 100%;
+    width: 800px;
     max-width: 800px; /* 最大宽度 */
     background-color: #ffffff; /* 白色背景 */
     border-radius: 10px; /* 圆角 */
     border: 1px solid #ddd; /* 边框 */
     padding: 20px; /* 内边距 */
-    overflow-y: auto; /* 垂直滚动 */
+    overflow: auto; /* 垂直滚动 */
 }
 
 /* 上/下一頁按鈕容器 */

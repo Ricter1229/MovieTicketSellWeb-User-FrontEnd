@@ -5,6 +5,7 @@ const useBookingStore = defineStore("bookingStore", {
   state: () => ({
     memberId: 1, // 用户 ID
     movieId: 1, // 电影 ID
+    movieName: '',
     storeId: null, // 影城 ID
     timeslot: null, // 场次时间
     selectedSeats: [], // 已选择的座位
@@ -32,6 +33,13 @@ const useBookingStore = defineStore("bookingStore", {
   },
 
   actions: {
+    resetStore() {
+      this.selectedSeats= [], // 已选择的座位
+      this.selectedTickets= [], // 已选择的票种
+      this.totalAmount= 0, // 总金额
+      this.orderId= 0 // 订单 ID
+    },
+
     // 设置用户 ID
     setMemberId(id) {
       this.memberId = id;
@@ -40,6 +48,11 @@ const useBookingStore = defineStore("bookingStore", {
     // 设置电影 ID
     setMovieId(id) {
       this.movieId = id;
+    },
+
+    // 设置电影名
+    setMovieName(name) {
+      this.movieName = name
     },
 
     // 设置影城 ID
