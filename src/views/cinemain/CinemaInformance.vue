@@ -1,9 +1,9 @@
 <template>
-    <p class="middle_p sub_title">北部</p>
-    <p class="middle_p sub_title">oo影城xx店</p>
+    <p  v-if="cinema.regionDto" class="middle_p sub_title">{{props.cinema.regionDto.region}}</p>
+    <p class="middle_p sub_title">oo影城{{cinema.name}}</p>
     <section class="p_wrap">
-            
-        <p class="middle_p intro">台北信義威秀影城內有時髦前衛、聲光炫麗的裝潢，為全國第一座專門為放映電影而量身打造的建築設計，提供了由現成建築物改裝的傳統電影院無法擁有的舒適視聽空間。
+         <p class="middle_p intro">{{cinema.introduce}}</p>   
+        <!-- <p class="middle_p intro">台北信義威秀影城內有時髦前衛、聲光炫麗的裝潢，為全國第一座專門為放映電影而量身打造的建築設計，提供了由現成建築物改裝的傳統電影院無法擁有的舒適視聽空間。
 
         本據點共15座影廳2,693席座位、40席無障礙座位，內含：
         1座4DX影廳 140個座位</p>
@@ -18,12 +18,26 @@
             <li class="p_li">無障礙廁所</li>
         </ul>
         <p class="middle_p intro"></p>
-        <p class="middle_p">台北市信義區松壽路20號</p>
+        <p class="middle_p">台北市信義區松壽路20號</p> -->
     </section>
+    <!-- <div @click="a">顯示</div> -->
 </template>
     
 <script setup>
-    
+    import { defineProps,ref, watch} from 'vue';
+    const props=defineProps(["cinema"]);
+    watch(()=>props.cinema,
+    ()=>{
+        newCinema.value=props.cinema;
+    })
+    const newCinema=ref({});
+    // function a(){
+        
+    //     console.log("props.cinema",props.cinema);
+    //     console.log("props.cinema.regionDto",props.cinema.regionDto);
+    //     console.log("props.cinema.regionDto.region",props.cinema.regionDto.region);
+    //     console.log("newCinema.value",newCinema.value);
+    // }
 </script>
     
 <style scoped>

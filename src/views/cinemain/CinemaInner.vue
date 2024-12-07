@@ -1,5 +1,5 @@
 <template>
-    <header>
+    <header id="header">
         <!-- <section class="cinemawrap">
             <section class="head_left">
                 <select name="" id="" class="sl">
@@ -60,7 +60,7 @@
                 </div>
             </section>
         </section> -->
-        <CinemaInnerTop></CinemaInnerTop>
+        <CinemaInnerTop :cinema="cinema" @update="updateCinema"></CinemaInnerTop>
     </header>
     <main>
         <section class="main_sec">
@@ -71,7 +71,49 @@
     
 <script setup>
     import CinemaInnerTop from './CinemaInnerTop.vue';
+    import Swal from 'sweetalert2';
+    import axios from 'axios';
+    import { ref,onMounted } from 'vue';
+    import { useRoute } from 'vue-router';
+    const id=ref();
+    const cinema=ref({});
+    onMounted(function(){
+    document.querySelector("#header").scrollIntoView(true);
+    const route = useRoute();
+    id.value= route.params.id;
+    callFindById(id.value);
+    
+    // console.log(Object.entries(cinema.value));
+    });
 
+    function updateCinema(newCinema){
+        cinema.value=newCinema.value;
+        // console.log("第一層newCinema",newCinema);
+        // console.log("第一層cinema",Object.entries(cinema.value));
+        // console.log("第一層cinemavalue",cinema.value);
+
+    }
+    async function callFindById(id) {
+            // console.log("callFindById",id);
+            Swal.fire({
+                title: "Loading.....",
+                showConfirmButton: false,
+                allowOutsideClick: false,
+            });
+            try {
+                const response = await axios.post(`http://localhost:8080/store/regions/find/${id}`);
+                cinema.value=response.data.dto;
+                setTimeout(function() {
+                    Swal.close();
+                }, 500);
+            } catch(error) {
+                console.log("error", error);
+                Swal.fire({
+                    icon: "error", //success, error, warning, info, question,,,,
+                    title: "查詢失敗:"+ error.message,
+                });
+            }
+        }
 </script>
     
 <style scoped>

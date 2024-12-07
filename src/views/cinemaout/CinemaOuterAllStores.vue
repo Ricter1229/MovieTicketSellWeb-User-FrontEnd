@@ -1,25 +1,26 @@
 <template>
-    <section  class="topwrap">
-        <section class="regionwrap">
-            <!-- <div class="region"><a href="">北部</a></div>
-            <div class="region"><a href="">中部</a></div>
-            <div class="region"><a href="">南部</a></div> -->
-            <CinemaRegion></CinemaRegion>
-        </section>
-    </section>
-    <section class="cinemawrap">
-        <!-- <section class="onecinema">
-                
-            <img src="@/assets/images/北1.jpg" alt="" class="cinemaimg">
-                
-            <div class="cinemaword">
-                <p>aaa店</p>
-                <p>影城地址：台北市信義區松壽路20號</p>
-                <p>聯絡方式:1234567890</p>
-            </div>
+    
+    
+        <section class="onecinema" v-for="(cinema,index) in cinemas" :key="index" >
+            <!-- <section> -->
+
+                <section class="cinema" @click="doclick(index)">
+                    <img :src="cinema.mainPhoto" alt="" class="cinemaimg">
+                        
+                    <div class="cinemaword">
+                        <p>{{cinema.name}}</p>
+                        <p>影城地址:{{cinema.address}}</p>
+                        <p>聯絡方式:{{cinema.phoneNo}}</p>
+                    </div>
+    
+                </section>    
+                <button @click="search(cinema)"> 
+                    查看
+                </button>
+            <!-- </section> -->
         </section>
 
-        <section class="onecinema">
+        <!-- <section class="onecinema">
                 
             <img src="@/assets/images/北2.jpg" alt="" class="cinemaimg">
             
@@ -39,30 +40,70 @@
                 <p>聯絡方式:1234567890</p>
             </div>
         </section> -->
-        <CinemaOneStore></CinemaOneStore>
-    </section>
+    
 </template>
     
 <script setup>
-    import CinemaRegion from './CinemaRegion.vue'
-    import CinemaOneStore from './CinemaOneStore.vue'
+    import { defineProps,defineEmits } from 'vue';
+    import Swal from 'sweetalert2';
+    import { useRouter } from 'vue-router';
+    const emits = defineEmits(["nowStore"]);
+    const props=defineProps(["cinemas"]);
+    const router = useRouter();
+    function doclick(index) {
+        emits("nowStore",index);
+    }
+    function search(cinema){
+        Swal.fire({
+                title: "Loading.....",
+                showConfirmButton: false,
+                allowOutsideClick: false,
+            });
+        setTimeout(function() {
+            router.push(`/cinemas/all/${cinema.storeId}`);
+                Swal.close();
+            }, 500);
+        
+
+    }
 </script>
     
 <style scoped>
-    a{
-        display: block;
-    }
-    .topwrap{
+    .onecinema{
         display: flex;
-        justify-content: center;
+        margin-bottom: 20px;
+        padding: 10px;
     }
-    .regionwrap{
-        position: absolute;
+    .cinema{
+        
         display: flex;
-        top: -20px;
+    }
+    button{
+ 
+    }
+    .cinema:hover{
+        background-color: rgb(202, 202, 202);
         
     }
+    .cinemaimg{
+        background-color: blue;
+        flex: 1 1 350px;
+        
+        height: 220px;
+        width: 330px;
+    }
+    .cinemaword{
+        padding-top: 50px;
+        padding-left: 60px;
+        width: 400px;
+        flex: 2 1 700px;
+    }
+
+    p{
+        margin-bottom: 10px;
+    }
     
+   
     
 
 </style>

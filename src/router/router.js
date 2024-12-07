@@ -17,35 +17,17 @@ import OneMovie from "@/views/pages/OneMovie.vue";
 // store
 import CinemaOuter from '../views/cinemaout/CinemaOuter.vue'
 import CinemaInner from '../views/cinemain/CinemaInner.vue'
-import CinemaBack from "../views/cinemaback/CinemaBack.vue";
-import CinemaModal from "../views/cinemaback/CinemaModal.vue";
-import CinemaMovieSchedule from "../views/cinemaback/CinemaMovieSchedule.vue";
 // booking
 import BookingIndex from "@/views/booking/BookingIndex.vue"
 
 // temp
 import TempMoney from "@/views/TempMoney.vue"
 import TheWelcome from '../components/TheWelcome.vue'
-import UserCheckTicket from "@/views/booking/InUser/UserCheckTicket.vue";
 
 const routes = [
 // temp
     { path: "/money", name: "temp-money-link", component: TempMoney },
     { path: "/test", name: "test-link", component: TheWelcome },
-    { path: "/test-userticket", name: "test-userticket-link", component: () => import("@/views/booking/InUser/UserCheckTicket.vue"),
-        children: [
-            {
-                path: "now-ticket",
-                name: "now-ticket-link",
-                component: () => import('@/views/booking/InUser/NowTicket.vue'), 
-            },
-            {
-                path: "past-ticket",
-                name: "past-ticket-link",
-                component: () => import('@/views/booking/InUser/PastTicket.vue'), 
-            },
-        ]
-    },
 
 // user
     { path: "/:pathMatch(.*)", name: "notfound-link", component: NotFound },
@@ -62,9 +44,8 @@ const routes = [
 
 // store
     {name:"cinema-outer-link",path:'/cinemas/all',component:CinemaOuter},
-    {name:"cinema-inner-link",path:'/cinemas/cinema',component:CinemaInner},
-    {name:"back-link",path:'/backend',component:CinemaBack},
-    {name:"scheduke-link",path:'/scheduke',component:CinemaMovieSchedule},
+    {name:"cinema-inner-link",path:'/cinemas/all/:id',component:CinemaInner},
+
 
 // booking
     { path: "/", name: "main-page-link", component: MainPage },

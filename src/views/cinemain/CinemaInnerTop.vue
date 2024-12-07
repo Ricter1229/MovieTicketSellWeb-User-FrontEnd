@@ -11,8 +11,8 @@
                     <option value="">oo店</option>
                     <option value="">oo店</option>
                 </select> -->
-                <CinemaRunFilter></CinemaRunFilter>
-            <img src="@/assets/images/1.jpg" alt="" class="image">
+                <CinemaRunFilter :regionDto="props.cinema.regionDto" :cinemaName="props.cinema.name" :cinemaId="props.cinema.storeId" @update="updateCinema"></CinemaRunFilter>
+            <img :src="props.cinema.mainPhoto" alt="" class="image">
             <section class="left_wrap">               
                 <!-- <Carousel v-bind="config" style="width: 450px;">
                     <Slide v-for="(img,index) in imgs" :key="index">
@@ -24,7 +24,7 @@
                     <Navigation />
                     </template>
                 </Carousel> -->
-                <CinemaSubsTurn></CinemaSubsTurn>              
+                <CinemaSubsTurn :cinema="props.cinema"></CinemaSubsTurn>              
             </section>
                     
         </section>
@@ -50,10 +50,10 @@
                 <p class="middle_p intro"></p>
                 <p class="middle_p">台北市信義區松壽路20號</p>
             </section> -->
-            <CinemaInformance></CinemaInformance>
+            <CinemaInformance :cinema="props.cinema"></CinemaInformance>
         </section>
         <section class="head_right">
-            <CinemaMap></CinemaMap>
+            <CinemaMap :cinemaMap="cinemaMap"></CinemaMap>
         </section>
     </section>
 </template>
@@ -64,6 +64,55 @@
     import CinemaSubsTurn from './CinemaSubsTurn.vue';
     import CinemaInformance from './CinemaInformance.vue';
     import CinemaMap from './CinemaMap.vue';
+    import { defineProps,watch,ref,defineEmits,toRaw } from 'vue';
+    const props=defineProps(["cinema"]);
+    const emits=defineEmits(["update"]);
+    const cinema=ref({});
+    const cinemaMap=ref({
+        "name":"",
+        "position":[],
+    });
+    function updateCinema(newCinema){
+        cinema.value=newCinema.value;
+        // console.log("222newCinema",newCinema);
+        // console.log("222cinema",Object.entries(cinema.value));
+        emits("update",cinema);
+    }
+
+    watch(
+  () => props.cinema, // 监听的目标
+  (newValue) => {
+    // 在此处理变化逻辑
+
+    if (newValue && props.cinema.position) {
+
+        cinemaMap.value.name=props.cinema.name;
+        console.log("props.cinema",props.cinema);
+        console.log("newValue",newValue);
+      const positionArr = props.cinema.position.split(",");
+      if (positionArr.length === 2) {
+        cinemaMap.value.position = positionArr.map(Number); // 确保转换为数字
+        console.log("cinemaMap.value.name",cinemaMap.value.name);
+        console.log("cinemaMap.value.position ",cinemaMap.value.position );
+
+      } else {
+        cinemaMap.value.name="";
+        cinemaMap.value.position=[1,1];
+        console.error("Invalid position format: ", newValue.position);
+        console.log("cinemaMap.value.name",cinemaMap.value.name);
+        console.log("cinemaMap.value.position ",cinemaMap.value.position );
+
+      }
+    } else {
+        cinemaMap.value.name="";
+        cinemaMap.value.position=[1,1];
+        console.error("cinemaMap 或 position 属性无效");
+        console.log("cinemaMap.value.name",cinemaMap.value.name);
+        console.log("cinemaMap.value.position ",cinemaMap.value.position );
+
+    }
+  },{ deep: true }
+);
 
 </script>
     
@@ -106,6 +155,7 @@
     }
     .image{
         height: 250px;
+        width: 400px;
         margin-top: 20px;
     }
     .left_wrap{

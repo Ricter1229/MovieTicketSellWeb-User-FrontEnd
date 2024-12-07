@@ -1,10 +1,15 @@
 <template>
-    <img src="@/assets/images/1.jpg" alt="" class="cphoto">
-    <img src="@/assets/images/photos2.jpg" alt="" class="cphoto">
+    <img v-if="props.cinemas.length!=0" :src="cinema.photo" alt="" class="cphoto" v-for="cinema in props.cinemas[props.nowSubPhoto].storeSubPhotoDtos">
+    <!-- <div @click="a">顯示</div> -->
 </template>
     
-<script setup lang='ts'>
-    
+<script setup>
+    import { defineProps } from 'vue';
+    const props=defineProps(["cinemas","nowSubPhoto"]);
+    // function a(){
+    //     console.log("cinemas.storeSubPhotoDtos");
+    //     console.log(props.cinemas[1].storeSubPhotoDtos);
+    // }
 </script>
     
 <style scoped>
@@ -13,9 +18,11 @@
         padding: 0;
         box-sizing: border-box;
     }
-
     .cphoto{
-        height: 150px;
+        height: 180px;
+        width: 250px;
         margin: 20px 5px 20px 5px;
     }
+
+    
 </style>
