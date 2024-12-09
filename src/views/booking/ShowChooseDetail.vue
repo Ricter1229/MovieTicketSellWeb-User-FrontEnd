@@ -29,6 +29,7 @@
         const order = {
             memberId: bookingStore.memberId,
             movieId: bookingStore.movieId,
+            /*movie name */
             totalAmount: bookingStore.totalAmount,
             orderDetail: detail, 
         }
