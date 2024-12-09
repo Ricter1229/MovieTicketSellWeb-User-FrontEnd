@@ -90,7 +90,7 @@
         flex: 1 1 350px;
         
         height: 220px;
-        width: 330px;
+        width: 300px;
     }
     .cinemaword{
         padding-top: 50px;
