@@ -1,22 +1,20 @@
 <template>
     <div id="carouselExampleCaptions" class="carousel slide adv" data-bs-ride="carousel" data-bs-pause="hover"  data-bs-interval="5000">
         <div class="carousel-indicators">
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
-            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            <button
+            v-for="(adPhoto, index) in StoreAdsPhotoDtos"
+            :key="'indicator-' + index"
+            type="button"
+            data-bs-target="#carouselExampleCaptions"
+            :data-bs-slide-to="index"
+            :class="{ active: index === 0 }"
+            :aria-current="index === 0 ? 'true' : null"
+            :aria-label="'Slide ' + (index + 1)"
+        ></button>
         </div>
         <div class="carousel-inner adv">
-            <div class="carousel-item active">
-                <img src="@/assets/images/homepage_20241106003.jpg" class="d-block w-100" alt="...">
-                
-            </div>
-            <div class="carousel-item">
-                <img src="@/assets/images/1.jpg" class="d-block w-100" alt="...">
-                
-            </div>
-            <div class="carousel-item">
-                <img src="@/assets/images/photos2.jpg" class="d-block w-100" alt="...">
-                
+            <div v-for="(adPhoto, index) in StoreAdsPhotoDtos" :key="adPhoto.sortId" :class="['carousel-item', { active: index === 0 }]">
+                <img :src="adPhoto.photo" class="d-block w-100" alt="Carousel Image">
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
@@ -31,7 +29,45 @@
 </template>
     
 <script setup>
-    
+import { onMounted, ref,watch } from 'vue';
+     import Swal from 'sweetalert2';
+     import axios from 'axios';
+     onMounted(()=>{
+    callFind();
+    console.log("StoreAdsPhotoDtos",StoreAdsPhotoDtos);
+  })
+  const StoreAdsPhotoDtos = ref([]);
+  onMounted(()=>{
+    callFind();
+    console.log("StoreAdsPhotoDtos",StoreAdsPhotoDtos);
+  })
+  async function callFind() {
+
+Swal.fire({
+    title: "Loading.....",
+    showConfirmButton: false,
+    allowOutsideClick: false,
+});
+
+axios.get("http://localhost:8080/storeads/allads").then(function(response) {
+
+    console.log("response.data.success", response.data.success);
+    if(response.data.success){
+        StoreAdsPhotoDtos.value=response.data.list;
+        setTimeout(function() {
+            console.log(response.data.list)
+            console.log("StoreAdsPhotoDtos.value111", StoreAdsPhotoDtos.value);
+            Swal.close();
+        }, 800);
+    }
+}).catch(function(error) {
+    console.log("error", error);
+    Swal.fire({
+        icon: "error", //success, error, warning, info, question,,,,
+        title: "查詢失敗:"+ error.message,
+    });
+});
+}
 </script>
     
 <style scoped>

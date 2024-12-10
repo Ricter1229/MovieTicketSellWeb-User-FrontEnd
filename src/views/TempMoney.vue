@@ -6,14 +6,7 @@
             <button @click="changeOrderStatus" class="ms-auto btn btn-info">結帳成功</button>
         </div>
     </div>
-    <!-- <div v-html="returnData.data.netSection"></div> -->
-     <div>{{ returnData.value }}</div>
      <div v-if="returnData.data" v-html="returnData.data.netSection"></div>
-    <div @click="a">顯示</div>
-    
-    <!-- <div>
-    <div v-html="formHtml"></div>
-  </div> -->
 </template>
 
 <script setup>
@@ -27,24 +20,32 @@
 
 // 在組件掛載後手動提交表單
 onMounted(() => {
+    changeOrderStatus();
+     Swal.fire({
+        title: "Loading.....",
+        showConfirmButton: false,
+        allowOutsideClick: false,
+    });
     setTimeout(function() {
     const form = document.getElementById('allPayAPIForm');
+    console.log('form',form);
       if (form) {
+        Swal.close();
         form.submit();
       }
-                }, 1500);
+                }, 1000);
 });
     /////////////////////////////////////////////
     const bookingStore = useBookingStore();
     const returnData=ref({});
-    function a(){
-        console.log("returnData.value.data",returnData.value.data);  
-        console.log("returnData.value.data.netSection",returnData.value.data.netSection);
-        // console.log("green",green);
-        const allPayAPIForm=document.querySelector('.allPayAPIForm');
-        console.log("allPayAPIForm",allPayAPIForm);  
-        allPayAPIForm.submit();
-    }
+    // function a(){
+    //     console.log("returnData.value.data",returnData.value.data);  
+    //     console.log("returnData.value.data.netSection",returnData.value.data.netSection);
+    //     // console.log("green",green);
+    //     const allPayAPIForm=document.querySelector('.allPayAPIForm');
+    //     console.log("allPayAPIForm",allPayAPIForm);  
+    //     allPayAPIForm.submit();
+    // }
     
     const changeOrderStatus = async () => {
         const request = {
@@ -52,11 +53,7 @@ onMounted(() => {
             "status": "PAID"
         };
         console.log("132",request);
-        Swal.fire({
-                title: "Loading.....",
-                showConfirmButton: false,
-                allowOutsideClick: false,
-            });
+       
         try {
             const response = await axiosInstance.put("/api/orders/status", request);
             returnData.value = response.data;
@@ -64,10 +61,7 @@ onMounted(() => {
             console.log("response.data",response.data);
                 const green=document.querySelector(".green");
                 console.log("green",green);
-                setTimeout(function() {
-                    green.innerHTML=returnData.value.data.netSection;
-                    Swal.close();
-                }, 500);
+                green.innerHTML=returnData.value.data.netSection;
             }catch(error) {
                 console.error("Error while set order paid", error);
                 Swal.fire({
