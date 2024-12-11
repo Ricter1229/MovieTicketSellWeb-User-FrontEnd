@@ -74,7 +74,7 @@ const routes = [
                 component: () => import('@/views/booking/ShowChooseDetail.vue'), 
             },
             {
-                path: "ticket-detail",
+                path: "ticket-detail/:id",
                 name: "ticket-detail-link",
                 component: () => import('@/views/booking/TicketDetail.vue'), 
             },

@@ -2,7 +2,7 @@
     <p  v-if="cinema.regionDto" class="middle_p sub_title">{{props.cinema.regionDto.region}}</p>
     <p class="middle_p sub_title">oo影城{{cinema.name}}</p>
     <section class="p_wrap">
-         <p class="middle_p intro">{{cinema.introduce}}</p>   
+         <pre class="middle_p intro">{{cinema.introduce}}</pre>   
         <!-- <p class="middle_p intro">台北信義威秀影城內有時髦前衛、聲光炫麗的裝潢，為全國第一座專門為放映電影而量身打造的建築設計，提供了由現成建築物改裝的傳統電影院無法擁有的舒適視聽空間。
 
         本據點共15座影廳2,693席座位、40席無障礙座位，內含：
@@ -60,13 +60,17 @@
         margin-top: 20px;
         margin-bottom: 40px;
     }
-    .p_ul{
+    .pre_ul{
         list-style-type:disc;
         margin-left: 40px;
     }
-    .p_li{
+    .pre_li{
         line-height: 20px;
         
     }
+    pre {
+  white-space: pre-wrap; /* 保留空白符並啟用自動換行 */
+  word-wrap: break-word; /* 在必要時強制單詞換行 */
+}
 
 </style>

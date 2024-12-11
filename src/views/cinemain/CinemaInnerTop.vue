@@ -143,7 +143,8 @@
     }
     .head_middle{
         flex: 1.4 1 350px ;
-        padding: 50px 40px 50px 0px ; 
+        padding: 50px 40px 50px 0px ;
+        width: 800px; 
     }
     
     .head_right{

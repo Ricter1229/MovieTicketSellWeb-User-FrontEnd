@@ -51,8 +51,7 @@ onMounted(() => {
         const request = {
             "orderId": bookingStore.orderId,
             "status": "PAID"
-        };
-        console.log("132",request);
+        }
        
         try {
             const response = await axiosInstance.put("/api/orders/status", request);
