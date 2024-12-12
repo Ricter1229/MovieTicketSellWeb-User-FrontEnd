@@ -16,7 +16,7 @@
                     <button type="button" @click="login()">Login</button>
                 </div>
                 <div class="form-group">
-                    <button type="button" @click="openForgotPasswordModal">忘記密碼?</button>
+                    <a href="#" @click.prevent="openForgotPasswordModal">忘記密碼?</a>
                 </div>
             </div>
         </form>
