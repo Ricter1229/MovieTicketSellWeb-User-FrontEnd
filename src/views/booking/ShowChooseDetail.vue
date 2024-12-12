@@ -61,6 +61,7 @@ const returnData=ref({});
         const order = {
             memberId: bookingStore.memberId,
             movieId: bookingStore.movieId,
+            /*movie name */
             totalAmount: bookingStore.totalAmount,
             orderDetail: detail, 
             orderId: bookingStore.orderId,

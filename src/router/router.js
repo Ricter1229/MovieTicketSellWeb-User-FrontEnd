@@ -54,7 +54,7 @@ const routes = [
 
 
 // booking
-    { path: "/movie", name: "movie-link", component: () => import('@/views/booking/choose_store_and_time/JustTempForBooking.vue') },
+    // { path: "/movie", name: "movie-link", component: () => import('@/views/booking/choose_store_and_time/JustTempForBooking.vue') },
     { 
         path: "/booking", name: "booking-link", component: BookingIndex,
         children: [

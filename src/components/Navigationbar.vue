@@ -31,7 +31,7 @@
                             電影管理
                         </span>
                         <ul class="dropdown-menu">
-                            <li><RouterLink class="dropdown-item" to="/movie">電影</RouterLink></li>
+                            <!-- <li><RouterLink class="dropdown-item" to="/movie">電影</RouterLink></li> -->
                             <li><RouterLink class="dropdown-item" to="/moviefront">電影前端暫放用</RouterLink></li>
                             <!-- <li><RouterLink class="dropdown-item" to="/onemovie">單一電影前端暫放用</RouterLink></li> -->
                         </ul>

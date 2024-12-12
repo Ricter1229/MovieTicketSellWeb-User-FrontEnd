@@ -26,7 +26,7 @@
     <div class="row">
 
         <div class="col-lg-3 col-md-6" v-for="movie in movies" :key="movie.id">
-            <MovieCardFront :item="movie.movie">
+            <MovieCardFront :item="movie">
             </MovieCardFront>
         </div>
     </div>
