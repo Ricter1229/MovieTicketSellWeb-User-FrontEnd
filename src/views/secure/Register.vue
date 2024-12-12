@@ -15,6 +15,11 @@
                 <span class="error-message">{{ errors.password }}</span>
             </div>
             <div class="form-group">
+                <label for="confirmPassword">確認密碼：</label>
+                <input type="password" id="confirmPassword" v-model="confirmPassword" @focus="clearError('confirmPassword')">
+                <span class="error-message">{{ errors.confirmPassword }}</span>
+            </div>
+            <div class="form-group">
                 <label for="email">信箱：</label>
                 <input type="email" id="email" v-model="email" @focus="clearError('email')">
                 <span class="error-message">{{ errors.email }}</span>
@@ -48,189 +53,193 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import axiosapi from "@/plugins/axios.js";
-import Swal from 'sweetalert2';
-import { useRouter } from 'vue-router';
+    import { ref } from 'vue';
+    import axiosapi from "@/plugins/axios.js";
+    import Swal from 'sweetalert2';
+    import { useRouter } from 'vue-router';
 
-const router = useRouter();
+    const router = useRouter();
 
-const username = ref(null);
-const password = ref(null);
-const email = ref(null);
-const phoneNum = ref(null);
-const birthDate = ref(null);
+    const username = ref(null);
+    const password = ref(null);
+    const email = ref(null);
+    const phoneNum = ref(null);
+    const birthDate = ref(null);
 
-const validationCode = ref(null);
-const isVerificationStep = ref(false);
+    const validationCode = ref(null);
+    const isVerificationStep = ref(false);
 
-const errors = ref({
-    username: null,
-    password: null,
-    email: null,
-    phoneNum: null,
-    birthDate: null,
-    validationCode: null,
-});
-
-function clearError(field) {
-    errors.value[field] = null;
-}
-
-async function register() {
-    Swal.fire({
-        title: "Registering.....",
-        showConfirmButton: false,
-        allowOutsideClick: false,
+    const errors = ref({
+        username: null,
+        password: null,
+        email: null,
+        phoneNum: null,
+        birthDate: null,
+        validationCode: null,
     });
 
-    for (let key in errors.value) {
-        errors.value[key] = null;
+    function clearError(field) {
+        errors.value[field] = null;
     }
 
-    registerCondition();
+    async function register() {
+        Swal.fire({
+            title: "Registering.....",
+            showConfirmButton: false,
+            allowOutsideClick: false,
+        });
 
-    if (Object.values(errors.value).some((error) => error)) {
-        Swal.close();
-        return;
-    }
+        for (let key in errors.value) {
+            errors.value[key] = null;
+        }
 
-    let request = {
-        account: username.value,
-        password: password.value,
-        email: email.value,
-        phoneNo: phoneNum.value,
-        birthDate: birthDate.value,
-    };
+        registerCondition();
 
-    // 無須驗證碼，測試用
-    // try {
-    //     const response = await axiosapi.post("/ajax/secure/register", request);
+        if (Object.values(errors.value).some((error) => error)) {
+            Swal.close();
+            return;
+        }
 
-    //     if (response.data.success) {
-    //         Swal.fire({
-    //             icon: "success",
-    //             title: "註冊成功！",
-    //         });
+        let request = {
+            account: username.value,
+            password: password.value,
+            email: email.value,
+            phoneNo: phoneNum.value,
+            birthDate: birthDate.value,
+        };
 
-    //         router.push({ name: "register-link" });
-    //     } else {
-    //         Swal.fire({
-    //             icon: "warning",
-    //             title: response.data.message,
-    //         });
-    //     }
-    // } catch (error) {
-    //     Swal.fire({
-    //         icon: "error",
-    //         title: "Registration failed: " + error.message,
-    //     });
-    // }
+        // 無須驗證碼，測試用
+        // try {
+        //     const response = await axiosapi.post("/ajax/secure/register", request);
 
-    // 實際上線用
-    try {
-        const response = await axiosapi.post("/ajax/secure/register-temp", request);
+        //     if (response.data.success) {
+        //         Swal.fire({
+        //             icon: "success",
+        //             title: "註冊成功！",
+        //         });
 
-        if (response.data.success) {
-            sessionStorage.setItem("userData", JSON.stringify(request));
-            sessionStorage.setItem("validationCode", response.data.validationCode);
-            const expirationTime = new Date().getTime() + 60 * 5 * 1000; // 5 minutes expiration
-            sessionStorage.setItem("codeExpiration", expirationTime);
-            isVerificationStep.value = true;
+        //         router.push({ name: "register-link" });
+        //     } else {
+        //         Swal.fire({
+        //             icon: "warning",
+        //             title: response.data.message,
+        //         });
+        //     }
+        // } catch (error) {
+        //     Swal.fire({
+        //         icon: "error",
+        //         title: "Registration failed: " + error.message,
+        //     });
+        // }
+
+        // 實際上線用
+        try {
+            const response = await axiosapi.post("/ajax/secure/register-temp", request);
+
+            if (response.data.success) {
+                sessionStorage.setItem("userData", JSON.stringify(request));
+                sessionStorage.setItem("validationCode", response.data.validationCode);
+                const expirationTime = new Date().getTime() + 60 * 5 * 1000; // 5 minutes expiration
+                sessionStorage.setItem("codeExpiration", expirationTime);
+                isVerificationStep.value = true;
+                Swal.fire({
+                    icon: "success",
+                    title: "註冊成功！請檢查您的電子郵件以取得驗證碼。",
+                });
+            } else {
+                Swal.fire({
+                    icon: "warning",
+                    title: response.data.message,
+                });
+            }
+        } catch (error) {
             Swal.fire({
-                icon: "success",
-                title: "註冊成功！請檢查您的電子郵件以取得驗證碼。",
-            });
-        } else {
-            Swal.fire({
-                icon: "warning",
-                title: response.data.message,
+                icon: "error",
+                title: "Registration failed: " + error.message,
             });
         }
-    } catch (error) {
-        Swal.fire({
-            icon: "error",
-            title: "Registration failed: " + error.message,
-        });
-    }
-}
-
-function registerCondition() {
-    if (!username.value) {
-        errors.value.username = "用戶名不能為空";
-    } else if (username.value.length > 30) {
-        errors.value.username = "不可超過30個字元";
-    } else if (/['"]/.test(username.value)) {
-        errors.value.username = "用戶名不可包含 ' 或 \" 字元";
     }
 
-    if (!password.value) {
-        errors.value.password = "密碼不能為空";
-    } else if (password.value.length < 8 || password.value.length > 30) {
-        errors.value.password = "密碼長度需介於8至30個字元之間";
-    } else if (!/[a-z]/.test(password.value)  || !/[0-9]/.test(password.value)) {
-        errors.value.password = "密碼需包含字母和數字";
+    function registerCondition() {
+        if (!username.value) {
+            errors.value.username = "用戶名不能為空";
+        } else if (username.value.length > 30) {
+            errors.value.username = "不可超過30個字元";
+        } else if (/['"]/.test(username.value)) {
+            errors.value.username = "用戶名不可包含 ' 或 \" 字元";
+        }
+
+        if (!password.value) {
+            errors.value.password = "密碼不能為空";
+        } else if (password.value.length < 8 || password.value.length > 30) {
+            errors.value.password = "密碼長度需介於8至30個字元之間";
+        } else if (!/[a-z]/.test(password.value)  || !/[0-9]/.test(password.value)) {
+            errors.value.password = "密碼需包含字母和數字";
+        }
+
+        if (confirmPassword.value != password.value) {
+            errors.value.confirmPassword = "確認密碼不一致";
+        }
+
+        if (!email.value) {
+            errors.value.email = "電子郵件不能為空";
+        } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email.value)) {
+            errors.value.email = "電子郵件格式錯誤";
+        }
+
+        if (!phoneNum.value) {
+            errors.value.phoneNum = "手機號碼不能為空";
+        } else if (!/^\d{10}$/.test(phoneNum.value)) {
+            errors.value.phoneNum = "手機號碼格式錯誤";
+        }
+
+        if (!birthDate.value) {
+            errors.value.birthDate = "生日不能為空";
+        } else if (new Date(birthDate.value) > new Date()) {
+            errors.value.birthDate = "生日不能大於當前日期";
+        }
     }
 
-    if (!email.value) {
-        errors.value.email = "電子郵件不能為空";
-    } else if (!/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email.value)) {
-        errors.value.email = "電子郵件格式錯誤";
+    function verifyCode() {
+        const storedCode = sessionStorage.getItem("validationCode");
+        const storedExpiration = sessionStorage.getItem("codeExpiration");
+        const currentTime = new Date().getTime();
+
+        if (currentTime > storedExpiration) {
+            Swal.fire({ icon: "error", title: "驗證碼已過期，請重新登入。" });
+            isVerificationStep.value = false;
+            return;
+        }
+
+        if (validationCode.value != storedCode) {
+            errors.value.validationCode = "驗證碼錯誤";
+        } else {
+            const request = sessionStorage.getItem("userData");
+            completeRegistration(request);
+        }
     }
 
-    if (!phoneNum.value) {
-        errors.value.phoneNum = "手機號碼不能為空";
-    } else if (!/^\d{10}$/.test(phoneNum.value)) {
-        errors.value.phoneNum = "手機號碼格式錯誤";
+    async function completeRegistration(request) {
+        const response = await axiosapi.post("/ajax/secure/confirm-registration", JSON.parse(request));
+
+        try {
+            Swal.fire({
+                icon: "success",
+                title: "註冊成功！",
+            }).then(() => {
+                router.push({ name: "login-link" });
+            });
+        } catch (error) {
+            Swal.fire({
+                icon: "error",
+                title: "Finalization failed: " + error.message,
+            });
+        }
+
+        sessionStorage.removeItem("userData");
+        sessionStorage.removeItem("validationCode");
+        sessionStorage.removeItem("codeExpiration");
     }
-
-    if (!birthDate.value) {
-        errors.value.birthDate = "生日不能為空";
-    } else if (new Date(birthDate.value) > new Date()) {
-        errors.value.birthDate = "生日不能大於當前日期";
-    }
-}
-
-function verifyCode() {
-    const storedCode = sessionStorage.getItem("validationCode");
-    const storedExpiration = sessionStorage.getItem("codeExpiration");
-    const currentTime = new Date().getTime();
-
-    if (currentTime > storedExpiration) {
-        Swal.fire({ icon: "error", title: "驗證碼已過期，請重新登入。" });
-        isVerificationStep.value = false;
-        return;
-    }
-
-    if (validationCode.value != storedCode) {
-        errors.value.validationCode = "驗證碼錯誤";
-    } else {
-        const request = sessionStorage.getItem("userData");
-        completeRegistration(request);
-    }
-}
-
-async function completeRegistration(request) {
-    const response = await axiosapi.post("/ajax/secure/confirm-registration", JSON.parse(request));
-
-    try {
-        Swal.fire({
-            icon: "success",
-            title: "註冊成功！",
-        }).then(() => {
-            router.push({ name: "login-link" });
-        });
-    } catch (error) {
-        Swal.fire({
-            icon: "error",
-            title: "Finalization failed: " + error.message,
-        });
-    }
-
-    sessionStorage.removeItem("userData");
-    sessionStorage.removeItem("validationCode");
-    sessionStorage.removeItem("codeExpiration");
-}
 </script>
 
 <style scoped>
