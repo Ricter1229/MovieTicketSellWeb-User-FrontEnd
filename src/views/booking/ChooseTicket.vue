@@ -71,15 +71,19 @@
         <!-- 上/下一頁按鈕 -->
         <div class="d-flex">
             <RouterLink :to="{ name: 'booking-link' }" class=" btn btn-info">上一頁</RouterLink>
-            <RouterLink :to="{ name: 'choose-seat-link' }" class="ms-auto btn btn-info">下一頁</RouterLink>
+            <button 
+                :class="buttonClass"
+                @click="nextPageClick">下一頁</button>
         </div>
     </div>
 </template>
 
 <script setup>
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive, computed } from "vue";
 import { useTicketTypeAPI } from "@/composables/booking/useTicketTypeAPI";
 import useBookingStore from "@/stores/bookingStore";
+import router from "@/router/router";
+import Swal from "sweetalert2";
 
 const { ticketTypes, getAllTicketTypeRequest } = useTicketTypeAPI()
 const bookingStore = useBookingStore()
@@ -157,7 +161,20 @@ const caculatorTotalMoney = () => {
 //         }
 //     }
 // }
-
+const buttonClass = computed(() =>
+    bookingStore.selectedTickets.length > 0 ? 'ms-auto btn btn-info' : 'ms-auto btn-outline-secondary disabled-button'
+);
+const nextPageClick = () => {
+    if (bookingStore.selectedTickets.length > 0) {
+        router.push({ name: 'choose-seat-link' });
+    } else {
+        Swal.fire({
+            icon: 'warning',
+            title: '請先選擇票數！',
+            text: '選擇票後才能進入下一頁。',
+        });
+    }
+}
 onMounted( async () => {
     await getAllTicketTypeRequest()
     initializeQuantities()
@@ -207,6 +224,12 @@ onMounted( async () => {
 
 .fw-bold {
     font-weight: bold;
+}
+
+.disabled-button {
+  border-radius: 5px;
+  font-weight: bold;
+  cursor: not-allowed;
 }
 </style>
 

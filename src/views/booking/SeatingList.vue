@@ -2,6 +2,11 @@
     <div class="auditorium">
         <!-- 确保数据已加载 -->
         <div v-if="seatingList.data?.seats">
+            <!-- 螢幕(前方) -->
+            <div class="screen text-center py-2 bg-light">
+                Screen
+            </div>
+
             <!-- 每一行 -->
             <div class="row d-flex align-items-center mb-2" v-for="row in seatingList.data.seats" :key="row.row">
                 <!-- 行标题 -->
@@ -111,6 +116,17 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+/* 螢幕 (前方) */
+.screen {
+    width: 100%;
+    max-width: 600px; /* 最大宽度 */
+    margin: 10px auto;
+    border-radius: 5px;
+    font-weight: bold;
+    background-color: #e9ecef; /* 灰色背景 */
+    border: 1px solid #ccc; /* 边框 */
 }
 
 .row {

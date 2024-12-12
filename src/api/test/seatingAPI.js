@@ -1,8 +1,9 @@
 import axios from '@/utils/axiosInstance';
 import { ref } from 'vue';
+import useBookingStore from '@/stores/bookingStore';
 
-const API_BASE_URL = '/auditorium';
-
+const bookingStore = useBookingStore()
+const API_BASE_URL = '/api/Auditorium';
 export const getSeat = async () => {
     const request =
         {

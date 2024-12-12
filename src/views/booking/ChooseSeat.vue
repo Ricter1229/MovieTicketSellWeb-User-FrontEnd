@@ -4,11 +4,7 @@
     <div class="main-contents flex-grow-1 me-3">
         <!-- 影廳畫面 -->
         <div class="theater-view">
-            <!-- 螢幕(前方) -->
-            <div class="screen text-center py-2 bg-light">
-                Screen
-            </div>
-            <!-- 座位 -->
+            <!-- 座位表 -->
             <div class="seating-list-container d-flex justify-content-center align-items-center mt-3">
                 <SeatingList></SeatingList>
             </div>
@@ -26,7 +22,6 @@
 <script setup>
     import SeatingList from './SeatingList.vue';
     import useBookingStore from '@/stores/bookingStore';
-    const bookingStore = useBookingStore()
 </script>
 
 <style scoped>
@@ -38,7 +33,7 @@
     padding: 20px; /* 内边距 */
     background-color: #f8f9fa; /* 背景色 */
     border-right: 1px solid #ddd; /* 分隔左侧内容与其他部分 */
-    overflow: scroll; /* 防止内容溢出产生滚动 */
+    overflow: auto; /* 防止内容溢出产生滚动 */
     max-height:none;
 }
 
@@ -49,17 +44,6 @@
     flex-direction: column; /* 垂直布局 */
     align-items: center; /* 水平居中 */
     justify-content: space-between; /* 上下分布 */
-}
-
-/* 螢幕 (前方) */
-.screen {
-    width: 100%;
-    max-width: 600px; /* 最大宽度 */
-    margin: 0 auto;
-    border-radius: 5px;
-    font-weight: bold;
-    background-color: #e9ecef; /* 灰色背景 */
-    border: 1px solid #ccc; /* 边框 */
 }
 
 /* 座位列表容器 */
