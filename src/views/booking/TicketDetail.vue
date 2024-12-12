@@ -49,10 +49,10 @@
                             </tr>
                             <tr>
                             <th scope="row">訂單成立時間</th>
-                            <td>{{data.data.order.tradeDate}}</td>
+                            <td>{{data.data.order.timeBuying}}</td>
                             </tr>
-                            <tr>
-                            <th scope="row" v-if="data.data.order.paymentDate!=null&&data.data.order.paymentDate!=''">付款時間</th>
+                            <tr v-if="data.data.order.paymentDate!=null&&data.data.order.paymentDate!=''">
+                            <th scope="row" >付款時間</th>
                             <td>{{data.data.order.paymentDate}}</td>
                             </tr>
                             

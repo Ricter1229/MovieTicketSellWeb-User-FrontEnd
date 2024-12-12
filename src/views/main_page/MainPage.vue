@@ -10,6 +10,7 @@
     import MovieSection from './MovieSection.vue';
     import SecondaryNavbar from './SecondaryNavbar.vue';
     import MovieGrid from './MovieGrid.vue';
+    
 </script>
 
 <style scoped>

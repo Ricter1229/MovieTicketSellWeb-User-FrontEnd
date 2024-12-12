@@ -1,5 +1,5 @@
 <template>
-    <section class="hero-section">
+    <!-- <section class="hero-section">
         <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 <div class="carousel-item active" v-for="(imgURL, index) in imgURLs">
@@ -17,19 +17,75 @@
             <div class="movie-buttons d-flex flex-column align-items-center">
                 <a href="#" class="movie-button"><i class="fas fa-film me-2"></i>立即觀看</a>
                 <RouterLink to="/movie" class="movie-button">購票資訊</RouterLink>
-                <!-- <a href="#" class="movie-button"><i class="fas fa-ticket-alt me-2"></i>購票資訊</a> -->
+                <a href="#" class="movie-button"><i class="fas fa-ticket-alt me-2"></i>購票資訊</a>
             </div>
         </div>
-    </section>
+    </section> -->
+
+    <div id="carouselExampleCaptions" class="carousel slide adv" data-bs-ride="carousel" data-bs-pause="hover"  data-bs-interval="5000">
+        <div class="carousel-indicators">
+            <button
+            v-for="(adPhoto, index) in StoreAdsPhotoDtos"
+            :key="'indicator-' + index"
+            type="button"
+            data-bs-target="#carouselExampleCaptions"
+            :data-bs-slide-to="index"
+            :class="{ active: index === 0 }"
+            :aria-current="index === 0 ? 'true' : null"
+            :aria-label="'Slide ' + (index + 1)"
+        ></button>
+        </div>
+        <div class="carousel-inner adv">
+            <div v-for="(adPhoto, index) in StoreAdsPhotoDtos" :key="adPhoto.sortId" :class="['carousel-item', { active: index === 0 }]">
+                <img :src="adPhoto.photo" class="d-block w-100 " alt="Carousel Image">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
 </template>
 
 <script setup>
-    const imgURLs = [
-        'https://www.vscinemas.com.tw/vsweb/upload/homepage/homepage_20241112009.jpg',
-        'https://www.vscinemas.com.tw/vsweb/upload/homepage/homepage_20241112007.jpg',
-        'https://www.vscinemas.com.tw/vsweb/upload/homepage/homepage_20241112009.jpg',
-        'https://www.vscinemas.com.tw/vsweb/upload/homepage/homepage_20241112005.jpg',
-    ]
+    // const imgURLs = [
+    //     'https://www.vscinemas.com.tw/vsweb/upload/homepage/homepage_20241112009.jpg',
+    //     'https://www.vscinemas.com.tw/vsweb/upload/homepage/homepage_20241112007.jpg',
+    //     'https://www.vscinemas.com.tw/vsweb/upload/homepage/homepage_20241112009.jpg',
+    //     'https://www.vscinemas.com.tw/vsweb/upload/homepage/homepage_20241112005.jpg',
+    // ]
+    import { onMounted, ref,watch } from 'vue';
+     import Swal from 'sweetalert2';
+     import axios from 'axios';
+     onMounted(()=>{
+    callFind();
+    console.log("StoreAdsPhotoDtos",StoreAdsPhotoDtos);
+  })
+  const StoreAdsPhotoDtos = ref([]);
+  onMounted(()=>{
+    callFind();
+    console.log("StoreAdsPhotoDtos",StoreAdsPhotoDtos);
+  })
+  async function callFind() {
+
+axios.get("http://localhost:8080/storeads/allads").then(function(response) {
+
+    console.log("response.data.success", response.data.success);
+    if(response.data.success){
+        StoreAdsPhotoDtos.value=response.data.list;
+    }
+}).catch(function(error) {
+    console.log("error", error);
+    Swal.fire({
+        icon: "error", //success, error, warning, info, question,,,,
+        title: "廣告加載失敗:"+ error.message,
+    });
+});
+}
 </script>
 
 <style scoped>
