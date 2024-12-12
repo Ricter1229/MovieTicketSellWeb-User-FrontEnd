@@ -28,7 +28,7 @@
         <div>
           <!-- <RouterLink :to="{name:'booking-link'}" class="btn btn-primary">訂票</RouterLink> -->
           <button @click="openModal">訂票</button>
-          <ChooseStoreAndTimeModal ref="chooseModalRef"></ChooseStoreAndTimeModal>
+          <!-- <ChooseStoreAndTimeModal ref="chooseModalRef"></ChooseStoreAndTimeModal> -->
         </div>
       </div>
     </div>
@@ -45,13 +45,17 @@
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
       </iframe>
     </div>
+
+    <div>
+      <ChooseStoreAndTime :id="props.id"></ChooseStoreAndTime>
+    </div>
   </div>
 </template>
 
 <script setup>
 import axiosapi from '@/utils/axiosInstance.js';
 import Swal from 'sweetalert2';
-import ChooseStoreAndTimeModal from '../booking/choose_store_and_time/ChooseStoreAndTimeModal.vue';
+import ChooseStoreAndTime from '../booking/ChooseStoreAndTime.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
@@ -69,7 +73,7 @@ const props = defineProps({
 // 定义引用和响应式变量
 const movie = ref({}); // 存储电影数据
 const thisPhoto = ref("");
-const chooseModalRef = ref(null);
+// const chooseModalRef = ref(null);
 
 // 生命周期函数：组件挂载后执行
 onMounted(() => {
@@ -79,15 +83,15 @@ onMounted(() => {
 });
 
 // 定义方法：打开模态框
-function openModal() {
-  // 使用 $refs 调用子组件方法
-  console.log(chooseModalRef.value);
-  if (chooseModalRef.value && typeof chooseModalRef.value.openModal === 'function') {
-    chooseModalRef.value.openModal();
-  } else {
-    console.error('chooseModalRef is not properly bound or openModal is not a function.');
-  }
-}
+// function openModal() {
+//   // 使用 $refs 调用子组件方法
+//   console.log(chooseModalRef.value);
+//   if (chooseModalRef.value && typeof chooseModalRef.value.openModal === 'function') {
+//     chooseModalRef.value.openModal();
+//   } else {
+//     console.error('chooseModalRef is not properly bound or openModal is not a function.');
+//   }
+// }
 
 // 定义方法：根据 ID 查询电影数据
 async function callFindById(id) {

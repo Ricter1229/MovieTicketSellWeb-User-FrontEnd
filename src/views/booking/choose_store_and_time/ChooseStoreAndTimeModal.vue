@@ -65,7 +65,8 @@
     const timeslotsModle = ref(null)
     const showTimeslotsStoreIndex = ref(null)
     const bookingStore = useBookingStore()
-
+    const stores = ref([])
+    const timeSlots = ref([])
     const storesAndTimeslots = [
         {
             store: "大安",
@@ -86,7 +87,6 @@
             ]
         },
     ]
-
 
     onMounted(() => {
         storeModal.value = new bootstrapBundleMin.Modal(storeModleRef.value)        
