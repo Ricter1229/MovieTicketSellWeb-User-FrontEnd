@@ -13,7 +13,7 @@
         <!-- 上/下一頁按鈕 最下面 -->
         <div class="d-flex justify-content-between mt-4">
             <RouterLink :to="{ name: 'choose-ticket-link' }" class="btn btn-info">上一頁</RouterLink>
-            <button @click="creatOrder" :to="{ name: 'check-choose-deatil-link' }" class="btn btn-info">下一頁
+            <button @click.prevent="creatOrder" :to="{ name: 'check-choose-deatil-link' }" class="btn btn-info">下一頁
             </button>
         </div>
     </div>
@@ -40,9 +40,10 @@ const creatOrder = async () => {
         movieId: bookingStore.movieId,
         totalAmount: bookingStore.totalAmount,
         orderDetail: detail,
-        orderId: bookingStore.orderId,
     }
     try {
+        console.log(order);
+        
         const responseData = (await axiosInstance.post("/api/orders/", order)).data.data
         console.log(responseData);
         

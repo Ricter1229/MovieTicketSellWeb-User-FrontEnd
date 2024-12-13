@@ -46,8 +46,8 @@
       </iframe>
     </div>
 
-    <div>
-      <ChooseStoreAndTime :id="props.id"></ChooseStoreAndTime>
+    <div v-if="movie">
+      <ChooseStoreAndTime :id="props.id" :photo="thisPhoto" :movieName="movie.chineseName"></ChooseStoreAndTime>
     </div>
   </div>
 </template>
@@ -67,7 +67,15 @@ const props = defineProps({
   id: {
     type: String,
     required: true
-  }
+  },
+  photo: {
+    type: String,
+    required: true
+  },
+  movieName: {
+    type: String,
+    required: true
+  },
 });
 
 // 定义引用和响应式变量
@@ -83,7 +91,6 @@ onMounted(() => {
     callFindById(props.id);
   }
 });
-
 // 定义方法：打开模态框
 // function openModal() {
 //   // 使用 $refs 调用子组件方法
@@ -117,8 +124,6 @@ async function callFindById(id) {
       if (Array.isArray(response.data.list) && response.data.list.length > 0) {
         movie.value = response.data.list[0].movie;  // 设置电影数据
         thisPhoto.value = response.data.list[0].mainPhoto;
-        bookingStore.setMainPhoto(thisPhoto.value)
-        bookingStore.setMovieName(movie.value.chineseName)
       } else {
         throw new Error("未找到电影资料");
       }

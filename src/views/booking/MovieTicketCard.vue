@@ -4,8 +4,8 @@
         <div class="card-img-top">
             <img 
                 class="movie-photo" 
-                alt="SAO" 
-                src="../../assets/images/SAO.jpg" 
+                :alt="bookingStore.movieName" 
+                :src="bookingStore.mainPhoto" 
             >
         </div>
         <!-- 文字區 -->

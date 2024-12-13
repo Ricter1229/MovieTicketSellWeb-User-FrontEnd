@@ -73,7 +73,7 @@
             <RouterLink :to="{ name: 'booking-link' }" class=" btn btn-info">上一頁</RouterLink>
             <button 
                 :class="buttonClass"
-                @click="nextPageClick">下一頁</button>
+                @click.prevent="nextPageClick">下一頁</button>
         </div>
     </div>
 </template>

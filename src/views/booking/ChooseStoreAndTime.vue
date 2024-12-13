@@ -3,12 +3,8 @@
         <div>選取影城</div>
         <!-- 影城列表 -->
         <div class="store-list">
-            <button
-                v-for="store in stores"
-                :key="store.storeId"
-                @click="clickStore(store)"
-                :class="['store-button', selectedStore === store.storeId ? 'active' : '']"
-            >
+            <button v-for="store in stores" :key="store.storeId" @click="clickStore(store)"
+                :class="['store-button', selectedStore === store.storeId ? 'active' : '']">
                 {{ store.name }}
             </button>
         </div>
@@ -16,12 +12,8 @@
         <!-- 日期和排片信息 -->
         <div v-if="schedules.length > 0">
             <div class="date-list">
-                <button
-                    v-for="date in uniqueDates"
-                    :key="date"
-                    @click="selectDate(date)"
-                    :class="['date-button', selectedDate === date ? 'active' : '']"
-                >
+                <button v-for="date in uniqueDates" :key="date" @click="selectDate(date)"
+                    :class="['date-button', selectedDate === date ? 'active' : '']">
                     {{ formatDate(date) }} <br />
                     {{ getWeekday(date) }}
                 </button>
@@ -29,19 +21,12 @@
 
             <!-- 時間段按廳分组 -->
             <div class="schedule-container">
-                <div
-                    v-for="(auditoriumSchedules, auditorium) in groupedSchedulesByAuditorium"
-                    :key="auditorium"
-                    class="auditorium-schedule"
-                >
+                <div v-for="(auditoriumSchedules, auditorium) in groupedSchedulesByAuditorium" :key="auditorium"
+                    class="auditorium-schedule">
                     <div class="auditorium-name">{{ auditorium }}</div>
                     <div class="time-slot-list">
-                        <button
-                            v-for="schedule in auditoriumSchedules"
-                            :key="schedule.timeSlots"
-                            class="time-slot-button"
-                            @click="clickTimeSlots(schedule.timeSlots)"
-                        >
+                        <button v-for="(schedule, index) in auditoriumSchedules" :key="schedule.timeSlots"
+                            class="time-slot-button" @click.prevent="clickTimeSlots(schedule.timeSlots, index)">
                             {{ schedule.timeSlots }}
                         </button>
                     </div>
@@ -66,7 +51,17 @@ const selectedDate = ref(null);
 const props = defineProps({
     id: {
         type: String, // 接收的类型
-        required: true, // 必须传递
+        required: true,
+    },
+    photo: {
+        type: String,
+        required: true,
+        default: '',
+    },
+    movieName: {
+        type: String,
+        default: '未命名電影', // 默认值为提示文字
+        required: true,
     },
 });
 
@@ -87,10 +82,10 @@ const clickStore = async (store) => {
     try {
         const request = {
             storeId: store.storeId,
-            movieId: bookingStore.movieId
+            movieId: props.id
         }
         console.log(request);
-        
+
         selectedStore.value = store.storeId;
         const response = await axiosInstance.post('/store/schedules', request);
         schedules.value = response.data.data;
@@ -98,22 +93,28 @@ const clickStore = async (store) => {
             // 默认选择第一个日期
             selectedDate.value = schedules.value[0].date;
         }
-        console.log(schedules.value);
-        
+        console.log(schedules.value[0]);
+
         bookingStore?.setStoreId(store.storeId)
         bookingStore?.setStoreName(store.name)
-
+        bookingStore.setMainPhoto(props.photo)
+        bookingStore.setMovieName(props.movieName)
+        bookingStore.setMovieId(props.id)
+        console.log(bookingStore);
+        
     } catch (error) {
         console.error('Failed to fetch schedules:', error);
     }
 };
 
-const clickTimeSlots = (timeslot) => {
+const clickTimeSlots = async (timeslot, index) => {
     const bookingStore = useBookingStore()
 
+    bookingStore.setAuditoriumScheduleId(schedules.value[index].auditoriumScheduleId)
     bookingStore.setDate(selectedDate.value)
     bookingStore.setTimeslot(timeslot)
-    router.push({ name: 'booking-link'})
+    
+    await router.push({ name: 'booking-link' })
 }
 
 // 获取去重的日期
@@ -244,4 +245,3 @@ onMounted(() => {
     color: white;
 }
 </style>
-

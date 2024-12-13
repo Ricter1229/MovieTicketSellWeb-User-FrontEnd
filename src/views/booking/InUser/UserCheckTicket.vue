@@ -36,20 +36,22 @@
 <script setup>
 import axiosInstance from '@/utils/axiosInstance';
 import { onMounted, reactive, ref } from 'vue';
-
+import useUsersStore from '@/store/users';
 // 响应式数据
 const orderInfos = reactive([]);
 const action = ref("future");
-
+const userStore = useUsersStore()
 // 获取票券数据
 const getNowTicket = async () => {
     const request = {
-        memberId: 1,
+        memberId: userStore.id,
         action: action.value,
     };
+    console.log(request);
+    
     const response = await axiosInstance.post("/api/orders/member/tickets", request);
-    orderInfos.splice(0, orderInfos.length, ...response.data.data);
     console.log(response);
+    orderInfos.splice(0, orderInfos.length, ...response.data.data);
     
 };
 
