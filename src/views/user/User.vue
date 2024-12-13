@@ -35,7 +35,7 @@
 
 <script setup>
     import { ref, onMounted, computed } from 'vue';
-    import axiosapi from "@/plugins/axios.js"
+    import axiosapi from '@/utils/axiosInstance';
     import Swal from 'sweetalert2';
     import UserModal from '@/components/UserModal.vue';
 
