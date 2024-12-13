@@ -6,7 +6,7 @@
             <button
                 v-for="store in stores"
                 :key="store.storeId"
-                @click="clickStore(store.storeId)"
+                @click="clickStore(store)"
                 :class="['store-button', selectedStore === store.storeId ? 'active' : '']"
             >
                 {{ store.name }}
@@ -27,17 +27,24 @@
                 </button>
             </div>
 
-            <!-- 時間段與版本 -->
-            <div class="schedule-list" v-for="version in uniqueVersions" :key="version">
-                <div class="version-title">{{ version }}</div>
-                <div class="time-slot-list">
-                    <button
-                        v-for="schedule in filteredSchedulesByVersion(version)"
-                        :key="schedule.timeSlots"
-                        class="time-slot-button"
-                    >
-                        {{ schedule.timeSlots }}
-                    </button>
+            <!-- 時間段按廳分组 -->
+            <div class="schedule-container">
+                <div
+                    v-for="(auditoriumSchedules, auditorium) in groupedSchedulesByAuditorium"
+                    :key="auditorium"
+                    class="auditorium-schedule"
+                >
+                    <div class="auditorium-name">{{ auditorium }}</div>
+                    <div class="time-slot-list">
+                        <button
+                            v-for="schedule in auditoriumSchedules"
+                            :key="schedule.timeSlots"
+                            class="time-slot-button"
+                            @click="clickTimeSlots(schedule.timeSlots)"
+                        >
+                            {{ schedule.timeSlots }}
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -49,8 +56,8 @@
 import { computed, onMounted, ref } from 'vue';
 import axiosInstance from '@/utils/axiosInstance';
 import useBookingStore from '@/stores/bookingStore';
+import router from '@/router/router';
 
-const bookingStore = useBookingStore()
 const stores = ref([]);
 const schedules = ref([]);
 const selectedStore = ref(null);
@@ -74,19 +81,40 @@ const getStore = async () => {
 };
 
 // 点击影城后获取其排片
-const clickStore = async (storeId) => {
+const clickStore = async (store) => {
+    const bookingStore = useBookingStore()
+
     try {
-        selectedStore.value = storeId;
-        const response = await axiosInstance.get(`/store/${storeId}/schedules`);
+        const request = {
+            storeId: store.storeId,
+            movieId: bookingStore.movieId
+        }
+        console.log(request);
+        
+        selectedStore.value = store.storeId;
+        const response = await axiosInstance.post('/store/schedules', request);
         schedules.value = response.data.data;
         if (schedules.value.length > 0) {
             // 默认选择第一个日期
             selectedDate.value = schedules.value[0].date;
         }
+        console.log(schedules.value);
+        
+        bookingStore?.setStoreId(store.storeId)
+        bookingStore?.setStoreName(store.name)
+
     } catch (error) {
         console.error('Failed to fetch schedules:', error);
     }
 };
+
+const clickTimeSlots = (timeslot) => {
+    const bookingStore = useBookingStore()
+
+    bookingStore.setDate(selectedDate.value)
+    bookingStore.setTimeslot(timeslot)
+    router.push({ name: 'booking-link'})
+}
 
 // 获取去重的日期
 const uniqueDates = computed(() => {
@@ -94,31 +122,29 @@ const uniqueDates = computed(() => {
     return [...new Set(dates)];
 });
 
-// 获取去重的版本
-const uniqueVersions = computed(() => {
-    const versions = schedules.value
-        .filter((schedule) => schedule.date === selectedDate.value)
-        .map((schedule) => schedule.version);
-    return [...new Set(versions)];
-});
-
-// 按版本筛选时间段
-const filteredSchedulesByVersion = (version) => {
-    return schedules.value.filter(
-        (schedule) =>
-            schedule.date === selectedDate.value && schedule.version === version
-    );
-};
-
 // 选择日期
 const selectDate = (date) => {
     selectedDate.value = date;
 };
 
+// 按廳分组的排片信息
+const groupedSchedulesByAuditorium = computed(() => {
+    const filteredSchedules = schedules.value.filter(
+        (schedule) => schedule.date === selectedDate.value
+    );
+
+    return filteredSchedules.reduce((group, schedule) => {
+        const auditoriumName = schedule.auditoriumName;
+        if (!group[auditoriumName]) {
+            group[auditoriumName] = [];
+        }
+        group[auditoriumName].push(schedule);
+        return group;
+    }, {});
+});
+
 // 格式化日期为 YYYY-MM-DD
-const formatDate = (date) => {
-    return date.split(' ')[0]; // 假设 date 为 'YYYY-MM-DD HH:mm:ss'
-};
+const formatDate = (date) => date.split(' ')[0]; // 假设 date 为 'YYYY-MM-DD HH:mm:ss'
 
 // 获取日期对应的星期
 const getWeekday = (date) => {
@@ -136,6 +162,7 @@ onMounted(() => {
 </script>
 
 
+
 <style scoped>
 .store-list {
     display: flex;
@@ -145,48 +172,56 @@ onMounted(() => {
 }
 
 .store-button {
-    padding: 10px 15px;
-    border: 1px solid #800080;
-    background-color: #fff;
-    color: #800080;
+    padding: 10px 20px;
+    border: 1px solid #6a0dad;
+    background-color: white;
+    color: #6a0dad;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
 }
 
 .store-button.active {
-    background-color: #800080;
-    color: #fff;
+    background-color: #6a0dad;
+    color: white;
 }
 
 .date-list {
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    justify-content: space-around;
     margin-bottom: 20px;
 }
 
 .date-button {
-    padding: 10px 15px;
-    border: 1px solid #800080;
-    background-color: #fff;
-    color: #800080;
+    padding: 10px;
+    border: 1px solid #6a0dad;
+    background-color: white;
+    color: #6a0dad;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
 }
 
 .date-button.active {
-    background-color: #800080;
-    color: #fff;
+    background-color: #6a0dad;
+    color: white;
 }
 
-.schedule-list {
-    margin-bottom: 20px;
+.schedule-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.version-title {
+.auditorium-schedule {
+    border: 1px solid #6a0dad;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.auditorium-name {
+    font-size: 1.2em;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #800080;
+    color: #6a0dad;
 }
 
 .time-slot-list {
@@ -196,16 +231,17 @@ onMounted(() => {
 }
 
 .time-slot-button {
-    padding: 10px 15px;
-    border: 1px solid #800080;
-    background-color: #fff;
-    color: #800080;
+    padding: 5px 10px;
+    border: 1px solid #6a0dad;
+    background-color: white;
+    color: #6a0dad;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: all 0.3s ease;
 }
 
 .time-slot-button:hover {
-    background-color: #800080;
-    color: #fff;
+    background-color: #6a0dad;
+    color: white;
 }
 </style>
+

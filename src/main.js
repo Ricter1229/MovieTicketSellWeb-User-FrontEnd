@@ -6,7 +6,7 @@ import App from './App.vue'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
-
+JSON.stringify(pinia)
 createApp(App)
     .use(pinia)
     .use(router)

@@ -58,7 +58,7 @@ import Swal from 'sweetalert2';
 import ChooseStoreAndTime from '../booking/ChooseStoreAndTime.vue';
 import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
-
+import useBookingStore from '@/stores/bookingStore';
 // 引入子组件
 // import ChooseStoreAndTimeModal from '../booking/choose_store_and_time/ChooseStoreAndTimeModal.vue';
 
@@ -74,9 +74,11 @@ const props = defineProps({
 const movie = ref({}); // 存储电影数据
 const thisPhoto = ref("");
 // const chooseModalRef = ref(null);
+const bookingStore = useBookingStore()
 
 // 生命周期函数：组件挂载后执行
 onMounted(() => {
+
   if (props.id) {
     callFindById(props.id);
   }
@@ -115,6 +117,8 @@ async function callFindById(id) {
       if (Array.isArray(response.data.list) && response.data.list.length > 0) {
         movie.value = response.data.list[0].movie;  // 设置电影数据
         thisPhoto.value = response.data.list[0].mainPhoto;
+        bookingStore.setMainPhoto(thisPhoto.value)
+        bookingStore.setMovieName(movie.value.chineseName)
       } else {
         throw new Error("未找到电影资料");
       }
