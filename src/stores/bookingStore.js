@@ -5,16 +5,19 @@ const useBookingStore = defineStore("bookingStore", {
   state: () => ({
     memberId: 1, // 用户 ID
     movieId: 1, // 电影 ID
-    movieName: '',
+    movieName: "", // 电影名字
     storeId: null, // 影城 ID
+    storeName: "", // 影城名字
+    date: null, // 場次日期
     timeslot: null, // 场次时间
     selectedSeats: [], // 已选择的座位
     selectedTickets: reactive([]), // 已选择的票种
     totalAmount: 0, // 总金额
     auditoriumScheduleId: 1, // 影厅排期 ID
     orderId: 0, // 订单 ID
+    mainPhoto: "", // movie photo
   }),
-
+  persist: true,
   getters: {
     // 获取已选择的座位总数
     totalSelectedSeats: (state) => state.selectedSeats.length,
@@ -30,14 +33,15 @@ const useBookingStore = defineStore("bookingStore", {
       memberId: state.memberId,
       totalAmount: state.totalAmount,
     }),
+
   },
 
   actions: {
     resetStore() {
-      this.selectedSeats= [], // 已选择的座位
-      this.selectedTickets= [], // 已选择的票种
-      this.totalAmount= 0, // 总金额
-      this.orderId= 0 // 订单 ID
+      (this.selectedSeats = []), // 已选择的座位
+      (this.selectedTickets = []), // 已选择的票种
+      (this.totalAmount = 0), // 总金额
+      (this.orderId = 0); // 订单 ID
     },
 
     // 设置用户 ID
@@ -52,12 +56,27 @@ const useBookingStore = defineStore("bookingStore", {
 
     // 设置电影名
     setMovieName(name) {
-      this.movieName = name
+      this.movieName = name;
+    },
+
+    // 设置电影圖片
+    setMainPhoto(photo) {
+      this.mainPhoto = photo;
     },
 
     // 设置影城 ID
     setStoreId(id) {
       this.storeId = id;
+    },
+
+    // 设置影城 ID
+    setStoreName(name) {
+      this.storeName = name;
+    },
+
+    // 设置场次时间
+    setDate(date) {
+      this.date = date;
     },
 
     // 设置场次时间

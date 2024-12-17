@@ -73,6 +73,7 @@
     import CinemaInnerTop from './CinemaInnerTop.vue';
     import Swal from 'sweetalert2';
     import axios from 'axios';
+    import axiosInstance from '@/utils/axiosInstance';
     import { ref,onMounted } from 'vue';
     import { useRoute } from 'vue-router';
     const id=ref();
@@ -101,7 +102,7 @@
                 allowOutsideClick: false,
             });
             try {
-                const response = await axios.post(`http://localhost:8080/store/regions/find/${id}`);
+                const response = await axiosInstance.post(`/store/regions/find/${id}`);
                 cinema.value=response.data.dto;
                 setTimeout(function() {
                     Swal.close();

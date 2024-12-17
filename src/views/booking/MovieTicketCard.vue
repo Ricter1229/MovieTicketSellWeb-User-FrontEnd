@@ -4,14 +4,14 @@
         <div class="card-img-top">
             <img 
                 class="movie-photo" 
-                alt="SAO" 
-                src="../../assets/images/SAO.jpg" 
+                :alt="bookingStore.movieName" 
+                :src="bookingStore.mainPhoto" 
             >
         </div>
         <!-- 文字區 -->
         <div class="card-details ms-3">
             <div class="movie-title fw-bold">{{ bookingStore.movieName }}</div>
-            <div class="movie-location text-muted">台北大安店</div>
+            <div class="movie-location text-muted">{{ bookingStore.storeName }}</div>
             <div class="movie-date text-muted">{{ bookingStore.timeslot }}</div>
         </div>
     </div>
@@ -27,6 +27,8 @@ const init = async () => {
     try {
         const response = await axiosInstance.get("api/movie/movies/" + bookingStore.movieId)
         bookingStore.setMovieName = response.data.list[0].chineseName
+        console.log("movieName",bookingStore.movieName);
+        
     } catch(err) {
         console.log(err);
     }

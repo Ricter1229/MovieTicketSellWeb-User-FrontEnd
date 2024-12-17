@@ -7,7 +7,7 @@
                 </button>
             </div>
             <div class="col-6">
-                <input type="text" placeholder="電影名稱查詢" v-model="findName" @input="callFind(1)">
+                <input type="text" placeholder="電影名稱查詢" v-model="findName" @input="callFind">
             </div>
     
             <div class="col-3">
@@ -76,14 +76,11 @@
     const movieModalRef = ref(null);
     const isShowInsertButton = ref(true);
     function openModal(action, id) {
-        console.log(id);
-        
         if(action==="insert") {
             isShowInsertButton.value = true;
             movie.value = {};
         } else {
             isShowInsertButton.value = false;
-            
             callFindById(id);
         }
         movieModalRef.value.showModal();
@@ -120,8 +117,6 @@
         }
         let uri = "/api/movie/find";
         axiosapi.post(uri , request).then(function(response){
-            console.log(response);
-            console.log(response.data.list[0].movie);
             movies.value = response.data.list;
 
             //分頁start
@@ -149,8 +144,8 @@
         });
         try {
             const response = await axiosapi.get(`/api/movie/movies/${id}`);
-            movie.value = response.data.list[0].movie;
-            
+            movie.value = response.data.list[0];
+
             setTimeout(function() {
                 Swal.close();
             }, 500);
@@ -209,8 +204,8 @@
         });
         try {
             let request = movie.value;
-            console.log(request);
             const response = await axiosapi.post("/api/movie/addMovie", request);
+            console.log(request);
             
             if(response.data.success) {
                 Swal.fire({

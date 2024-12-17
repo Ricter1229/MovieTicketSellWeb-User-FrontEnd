@@ -4,11 +4,7 @@
     <div class="main-contents flex-grow-1 me-3">
         <!-- 影廳畫面 -->
         <div class="theater-view">
-            <!-- 螢幕(前方) -->
-            <div class="screen text-center py-2 bg-light">
-                Screen
-            </div>
-            <!-- 座位 -->
+            <!-- 座位表 -->
             <div class="seating-list-container d-flex justify-content-center align-items-center mt-3">
                 <SeatingList></SeatingList>
             </div>
@@ -17,69 +13,115 @@
         <!-- 上/下一頁按鈕 最下面 -->
         <div class="d-flex justify-content-between mt-4">
             <RouterLink :to="{ name: 'choose-ticket-link' }" class="btn btn-info">上一頁</RouterLink>
-            <RouterLink :to="{ name: 'check-choose-deatil-link' }" class="btn btn-info">下一頁</RouterLink>
+            <button @click.prevent="creatOrder" :to="{ name: 'check-choose-deatil-link' }" class="btn btn-info">下一頁
+            </button>
         </div>
     </div>
-    
+
 </template>
 
 <script setup>
-    import SeatingList from './SeatingList.vue';
-    import useBookingStore from '@/stores/bookingStore';
-    const bookingStore = useBookingStore()
+import axiosInstance from '@/utils/axiosInstance';
+import SeatingList from './SeatingList.vue';
+import useBookingStore from '@/stores/bookingStore';
+import Swal from 'sweetalert2';
+import router from '@/router/router';
+
+const bookingStore = useBookingStore()
+
+const creatOrder = async () => {
+    const detail = {
+        storeId: bookingStore.storeId,
+        auditoriumScheduleId: bookingStore.auditoriumScheduleId,
+        seats: bookingStore.selectedSeats,
+    }
+    const order = {
+        memberId: bookingStore.memberId,
+        movieId: bookingStore.movieId,
+        totalAmount: bookingStore.totalAmount,
+        orderDetail: detail,
+    }
+    try {
+        console.log(order);
+        
+        const responseData = (await axiosInstance.post("/api/orders/", order)).data.data
+        console.log(responseData);
+        
+        bookingStore.setOrderId(responseData.orderId)
+        router.push({ name: 'check-choose-deatil-link' }).catch(err => {
+            console.error("Routing error:", err);
+        }); // 成功后跳转
+    } catch (error) {
+        console.error("Error occurred while creating order:");
+        Swal.fire({
+            icon: "error",
+            title: "創建訂單失敗",
+            text: error.message || "未知錯誤",
+        });
+    }
+
+}
 </script>
 
 <style scoped>
 /* 主內容 */
 .main-contents {
     display: flex;
-    flex-direction: column; /* 垂直布局 */
-    min-height: 100vh; /* 覆盖全屏高度 */
-    padding: 20px; /* 内边距 */
-    background-color: #f8f9fa; /* 背景色 */
-    border-right: 1px solid #ddd; /* 分隔左侧内容与其他部分 */
-    overflow: scroll; /* 防止内容溢出产生滚动 */
-    max-height:none;
+    flex-direction: column;
+    /* 垂直布局 */
+    min-height: 100vh;
+    /* 覆盖全屏高度 */
+    padding: 20px;
+    /* 内边距 */
+    background-color: #f8f9fa;
+    /* 背景色 */
+    border-right: 1px solid #ddd;
+    /* 分隔左侧内容与其他部分 */
+    overflow: auto;
+    /* 防止内容溢出产生滚动 */
+    max-height: none;
 }
 
 /* 影廳畫面 */
 .theater-view {
-    flex-grow: 1; /* 动态填充剩余空间 */
+    flex-grow: 1;
+    /* 动态填充剩余空间 */
     display: flex;
-    flex-direction: column; /* 垂直布局 */
-    align-items: center; /* 水平居中 */
-    justify-content: space-between; /* 上下分布 */
-}
-
-/* 螢幕 (前方) */
-.screen {
-    width: 100%;
-    max-width: 600px; /* 最大宽度 */
-    margin: 0 auto;
-    border-radius: 5px;
-    font-weight: bold;
-    background-color: #e9ecef; /* 灰色背景 */
-    border: 1px solid #ccc; /* 边框 */
+    flex-direction: column;
+    /* 垂直布局 */
+    align-items: center;
+    /* 水平居中 */
+    justify-content: space-between;
+    /* 上下分布 */
 }
 
 /* 座位列表容器 */
 .seating-list-container {
-    flex-grow: 1; /* 动态填充剩余空间 */
+    flex-grow: 1;
+    /* 动态填充剩余空间 */
     display: flex;
     justify-content: center;
-    align-items: center; /* 垂直居中 */
+    align-items: center;
+    /* 垂直居中 */
     width: 800px;
-    max-width: 800px; /* 最大宽度 */
-    background-color: #ffffff; /* 白色背景 */
-    border-radius: 10px; /* 圆角 */
-    border: 1px solid #ddd; /* 边框 */
-    padding: 20px; /* 内边距 */
-    overflow: auto; /* 垂直滚动 */
+    max-width: 800px;
+    /* 最大宽度 */
+    background-color: #ffffff;
+    /* 白色背景 */
+    border-radius: 10px;
+    /* 圆角 */
+    border: 1px solid #ddd;
+    /* 边框 */
+    padding: 20px;
+    /* 内边距 */
+    overflow: auto;
+    /* 垂直滚动 */
 }
 
 /* 上/下一頁按鈕容器 */
 .d-flex {
-    margin-top: auto; /* 按钮始终贴近底部 */
+    margin-top: auto;
+    /* 按钮始终贴近底部 */
 }
 
 /* 按钮样式 */

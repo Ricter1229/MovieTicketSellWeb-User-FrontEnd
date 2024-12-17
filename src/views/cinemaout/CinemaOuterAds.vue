@@ -32,6 +32,7 @@
 import { onMounted, ref,watch } from 'vue';
      import Swal from 'sweetalert2';
      import axios from 'axios';
+     import axiosInstance from '@/utils/axiosInstance';
      onMounted(()=>{
     callFind();
     console.log("StoreAdsPhotoDtos",StoreAdsPhotoDtos);
@@ -49,7 +50,7 @@ Swal.fire({
     allowOutsideClick: false,
 });
 
-axios.get("http://localhost:8080/storeads/allads").then(function(response) {
+axiosInstance.get("/storeads/allads").then(function(response) {
 
     console.log("response.data.success", response.data.success);
     if(response.data.success){

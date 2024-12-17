@@ -11,6 +11,7 @@ import User from "@/views/user/User.vue";
 import ResetPassword from "@/views/secure/ResetPassword.vue";
 import Admin from "@/views/admin/Admin.vue";
 
+import UserCheckTicket from "@/views/booking/InUser/UserCheckTicket.vue";
 // movie
 import Movie from "@/views/pages/Movie.vue";
 import MovieFront from "@/views/pages/MovieFront.vue";
@@ -30,6 +31,7 @@ const routes = [
 // temp
     { path: "/money", name: "temp-money-link", component: TempMoney },
     { path: "/test", name: "test-link", component: TheWelcome },
+    { path: "/test-userticket", name: "test-userticket", component: UserCheckTicket },
 
 // main page
     { path: "/", name: "main-page-link", component: MainPage },
@@ -54,7 +56,7 @@ const routes = [
 
 
 // booking
-    { path: "/movie", name: "movie-link", component: () => import('@/views/booking/choose_store_and_time/JustTempForBooking.vue') },
+    // { path: "/movie", name: "movie-link", component: () => import('@/views/booking/choose_store_and_time/JustTempForBooking.vue') },
     { 
         path: "/booking", name: "booking-link", component: BookingIndex,
         children: [

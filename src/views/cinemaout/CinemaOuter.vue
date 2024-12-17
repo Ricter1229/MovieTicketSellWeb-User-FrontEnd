@@ -92,6 +92,7 @@
     import CinemaOuterAllStores from './CinemaOuterAllStores.vue'
     import Swal from 'sweetalert2';
     import axios from 'axios';
+    import axiosInstance from "@/utils/axiosInstance";
     import { ref,onMounted } from 'vue';
     const cinemas=ref([
         
@@ -141,7 +142,7 @@
                 showConfirmButton: false,
                 allowOutsideClick: false,
             });
-            axios.get("http://localhost:8080/store/regions/findall").then(function(response) {
+            axiosInstance.get("/store/regions/findall").then(function(response) {
 
                 regions.value=response.data.list;
                 setTimeout(function() {
@@ -169,7 +170,7 @@
                 showConfirmButton: false,
                 allowOutsideClick: false,
             });
-            axios.post("http://localhost:8080/store/regions/find", request).then(function(response) {
+            axiosInstance.post("/store/regions/find", request).then(function(response) {
 
                 console.log("response.data.count", response.data.count);
                 console.log("request.regionFilter", request.regionFilter);

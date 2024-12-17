@@ -12,6 +12,7 @@
     
 <script setup>
     import axios from 'axios';
+    import axiosInstance from '@/utils/axiosInstance';
     import Swal from 'sweetalert2';
     import { ref,onMounted,defineProps, watch,defineEmits } from 'vue';
     const regionFilter=ref(1);
@@ -57,7 +58,7 @@
                 showConfirmButton: false,
                 allowOutsideClick: false,
             });
-            axios.get("http://localhost:8080/store/regions/findall").then(function(response) {
+            axiosInstance.get("/store/regions/findall").then(function(response) {
 
                 regions.value=response.data.list;
                 setTimeout(function() {
@@ -79,7 +80,7 @@
             //     allowOutsideClick: false,
             // });
             try {
-                const response = await axios.post(`http://localhost:8080/store/regions/find/${id}`);
+                const response = await axiosInstance.post(`/store/regions/find/${id}`);
                 // console.log("response.data.dto",response.data.dto);
                 cinema.value=response.data.dto;
                 // console.log("cinema.value",cinema.value);
@@ -121,7 +122,7 @@
                 showConfirmButton: false,
                 allowOutsideClick: false,
             });
-            axios.post("http://localhost:8080/store/regions/find", request).then(function(response) {
+            axiosInstance.post("/store/regions/find", request).then(function(response) {
 
                 // console.log("response.data.count", response.data.count);
                 // console.log("request.regionFilter", request.regionFilter);

@@ -74,6 +74,7 @@ import { useRoute } from 'vue-router';
 import Swal from 'sweetalert2';
 import axios from 'axios';
 import useBookingStore from '@/stores/bookingStore';
+import axiosInstance from '@/utils/axiosInstance';
 
 // const bookingStore = useBookingStore()
 // const { changeOrderStatus } = useMemberBuyTicketOrderAPI()
@@ -85,6 +86,19 @@ const id=ref();
 const data=ref();
 const display=ref(false);
 const orderCondition=ref(false);
+
+const setOrderPaid = async (id) => {
+    const request = {
+        orderId: id,
+        status: 'PAID'
+    }
+    try {
+        await axiosInstance.post("/api/orders/status", request)
+    } catch {
+        console.log("change order state error");
+    }
+}
+
 onMounted(function(){
     const route = useRoute();
     id.value= route.params.id;
@@ -94,6 +108,7 @@ onMounted(function(){
 
         if(data.value.data.order.rtnCode===1){
             orderCondition.value=true;
+            setOrderPaid(id.value)
         }else{
             orderCondition.value=false;
         }

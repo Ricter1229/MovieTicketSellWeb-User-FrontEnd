@@ -6,6 +6,7 @@ import App from './App.vue'
 
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
+<<<<<<< HEAD
 
 import { defineRule, configure } from 'vee-validate';
 import { required, alpha_dash } from '@vee-validate/rules';
@@ -25,6 +26,9 @@ configure({
   
 
 
+=======
+JSON.stringify(pinia)
+>>>>>>> 44dd874842c775557ed1653842aa863be7f06ea3
 createApp(App)
     .use(pinia)
     .use(router)

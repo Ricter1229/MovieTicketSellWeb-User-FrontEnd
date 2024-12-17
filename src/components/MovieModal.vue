@@ -51,9 +51,7 @@
                         </tr>
                         <tr>
                             <td>電影視覺圖 : </td>
-                            <td><input type="file" accept="image/gif, image/jpeg, image/png" @change="handleFileChange" /></td>
-                            <td><img  :src="photo.mainPhoto" alt="Image Preview" /></td>
-                            
+                            <td><input type="file" :value="movie.photo" @input="doinput($event, 'photo')"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -94,29 +92,6 @@ function hideModal() {
 defineExpose({
     showModal, hideModal,
 });
-
-
-
-const photo = ref({
-  mainPhoto:"",
-});
-
-function handleFileChange(event) {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = (e) => {
-    photo.value.mainPhoto=e.target.result;
-    console.log(photo.value.mainPhoto)
-    const data = {
-        ...props.movie,
-        ["photo"]: photo.value.mainPhoto
-    };
-    emits("update:movie", data);
-    };
-  }
-};
 </script>
 
 <style>
