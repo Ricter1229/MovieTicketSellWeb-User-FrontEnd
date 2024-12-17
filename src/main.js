@@ -7,8 +7,27 @@ import App from './App.vue'
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 
+import { defineRule, configure } from 'vee-validate';
+import { required, alpha_dash } from '@vee-validate/rules';
+import { localize } from '@vee-validate/i18n';
+import zhTW from '@vee-validate/i18n/dist/locale/zh_TW.json'; // 使用繁体中文
+const config = configure({
+   validateOnInput: true, // 調整為即時驗證
+})
+
+Object.keys(AllRules).forEach(rule => {
+   defineRule(rule, AllRules[rule]);
+});
+configure({
+    generateMessage: localize('zh_TW', zhTW),
+    validateOnInput: true, // 在输入时立即验证
+  });
+  
+
+
 createApp(App)
     .use(pinia)
     .use(router)
+    .use(config)
     .mount('#app')
 
